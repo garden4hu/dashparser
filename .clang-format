@@ -9,5 +9,7 @@ DerivePointerAlignment: false
 PointerAlignment: Left
 SortIncludes: true
 SortUsingDeclarations: true
-
+AlignConsecutiveAssignments: AcrossEmptyLinesAndComments
+AlignConsecutiveBitFields: AcrossEmptyLinesAndComments
+AlignConsecutiveMacros: AcrossEmptyLinesAndComments
 ...

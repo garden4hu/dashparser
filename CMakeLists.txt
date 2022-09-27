@@ -12,8 +12,7 @@ find_package(fmt CONFIG REQUIRED)
 
 
 list(APPEND DASH_CXX_HEADERS
-	parser/common_attributes.h
-
+	include/common_type.h
 )
 
 
