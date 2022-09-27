@@ -1,32 +1,35 @@
 #ifndef DASH_PARSER_XML_H_
 #define DASH_PARSER_XML_H_
 
+#include <absl/types/optional.h>
+#include <fmt/format.h>
+#include <libxml/parser.h>
+#include <libxml/tree.h>
 
 #include <optional>
 #include <string>
-#include <fmt/format.h>
-#include <libxml/tree.h>
-#include <libxml/parser.h>
-#include <absl/types/optional.h>
-#include "xml_smart_ptr.h"
 
-namespace dash
-{
+#include "base/c_smart_ptr.h"
 
-	using DocSmartPtr = CSmartPtr<xmlDoc, xmlFreeDoc>;
+namespace dash {
 
-	using NodeSmartPtr = CSmartPtr<xmlNode, xmlFreeNode>;
+using DocSmartPtr = CSmartPtr<xmlDoc, xmlFreeDoc>;
 
-	std::optional<DocSmartPtr> initXMLDoc(const char* src, int length);
-	
-	class XMLNode
-	{
-	public:
-		XMLNode() = default;
-		bool init() { return true; }
-	private:
-		NodeSmartPtr node;
-	};
-}
+using NodeSmartPtr = CSmartPtr<xmlNode, xmlFreeNode>;
 
-#endif // !DASH_PARSER_XML_H_
+using AttrTableSmartPtr = CSmartPtr<xmlAttributeTable, xmlFreeAttributeTable>;
+
+std::optional<DocSmartPtr> initXmlDoc(const char* src, int length);
+
+class XmlNode {
+ public:
+  explicit XmlNode(NodeSmartPtr ptr) : node_(std::move(ptr)) {}
+
+  [[nodiscard]] NodeSmartPtr getParentNode() const { return {node_->parent}; }
+
+ private:
+  NodeSmartPtr node_;
+};
+}  // namespace dash
+
+#endif  // !DASH_PARSER_XML_H_

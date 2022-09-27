@@ -5,18 +5,17 @@
 
 #include <memory>
 
-namespace dash
-{
+namespace dash {
 /**
- * This is a helper that wraps C style API objects that need to be deleted with a smart pointer.
- * Inspired by Envoy. Thanks.
+ * This is a helper that wraps C style API objects that need to be deleted with
+ * a smart pointer. Inspired by Envoy. Thanks.
  */
-	template <class T, void (*deleter)(T*)>
-	class CSmartPtr : public std::unique_ptr<T, void (*)(T*)> {
-	public:
-		CSmartPtr() : std::unique_ptr<T, void (*)(T*)>(nullptr, deleter) {}
-		CSmartPtr(T* object) : std::unique_ptr<T, void (*)(T*)>(object, deleter) {}
-	};
-}
+template <class T, void (*deleter)(T*)>
+class CSmartPtr : public std::unique_ptr<T, void (*)(T*)> {
+ public:
+  CSmartPtr() : std::unique_ptr<T, void (*)(T*)>(nullptr, deleter) {}
+  CSmartPtr(T* object) : std::unique_ptr<T, void (*)(T*)>(object, deleter) {}
+};
+}  // namespace dash
 
-#endif // !DASH_C_SMART_PTR_H_
+#endif  // !DASH_C_SMART_PTR_H_

@@ -11,18 +11,26 @@ find_package(LibXml2 CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 
 
+list(APPEND DASH_CXX_HEADERS
+	parser/common_attributes.h
+
+)
+
 
 list(APPEND DASH_CXX_FILES
 	parser/xml/dash_xml.cpp
 	parser/dash_parser.cpp
+	parser/mpd.cpp
+	parser/adaptation_set.cpp
+	parser/period.cpp
 )
 
 
-add_library(${PROJECT_NAME} SHARED ${DASH_CXX_FILES})
+add_library(${PROJECT_NAME} SHARED ${DASH_CXX_FILES} ${DASH_CXX_HEADERS})
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_include_directories(${PROJECT_NAME} PRIVATE parser)
-target_link_libraries(${PROJECT_NAME}  PRIVATE LibXml2::LibXml2 fmt::fmt-header-only absl::any absl::base absl::bits absl::city)
+target_link_libraries(${PROJECT_NAME}  PRIVATE LibXml2::LibXml2 fmt::fmt-header-only absl::base)
 
 
 enable_testing()
