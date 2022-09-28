@@ -25,7 +25,7 @@ class XmlNode {
   public:
     explicit XmlNode(NodeSmartPtr ptr) : node_(std::move(ptr)) {}
 
-    [[nodiscard]] NodeSmartPtr getParentNode() const { return {node_->parent}; }
+    NodeSmartPtr getParentNode() const { return {node_->parent}; }
 
   private:
     NodeSmartPtr node_;

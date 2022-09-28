@@ -2,25 +2,27 @@
 #define DASH_PERIOD_H
 #pragma once
 
+#include <list>
 #include <optional>
 #include <string>
-#include <list>
+
+#include "common_attributes_elements.h"
+#include "segment.h"
+
 using std::optional;
 
 namespace dash {
-class BaseURL;
+
 class SegmentBase;
 class SegmentList;
 class SegmentTemplate;
 class AssetIdentifier;
-class EventStream;
+
 class AdaptationSet;
 class Subset;
 class SupplementalProperty;
 class EmptyAdaptationSet;
-class GroupLabel;
 class PreSelection;
-
 
 /**
  * @brief There are 3 kind of period:
@@ -46,14 +48,14 @@ class PreSelection;
  */
 
 class Period {
-public:
+  public:
     optional<std::string> id_;
     // if present, is PeriodStart. Or refer to the brief above.
     optional<int32_t> start_;
     optional<int32_t> duration_;
     bool bit_stream_switching_ = false;
 
-    std::list<BaseURL> base_url_;
+    std::list<BaseURL> base_url_;  // prefer the first item as the base URL
     optional<SegmentBase> segment_bases_;
     optional<SegmentList> segment_lists_;
     optional<SegmentTemplate> segment_template_;
@@ -66,6 +68,6 @@ public:
     std::list<GroupLabel> group_labels_;
     std::list<PreSelection> pre_selections_;
 };
-}
+}  // namespace dash
 
 #endif  // !DASH_PERIOD_H

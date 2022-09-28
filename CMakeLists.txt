@@ -22,6 +22,9 @@ list(APPEND DASH_CXX_FILES
 	parser/mpd.cpp
 	parser/adaptation_set.cpp
 	parser/period.cpp
+	parser/segment.cpp
+	parser/common_attributes_elements.cpp
+	parser/util.cpp
 )
 
 

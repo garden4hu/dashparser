@@ -14,28 +14,40 @@ using std::optional;
 
 namespace dash {
 
-
-
 typedef struct {
     int num;
     int den;
 } Fraction;
 
-typedef struct {
-    int floor;
-    int ceiling;
+typedef struct NumericalInterval {
+    int floor   = 0;
+    int ceiling = 0;
 } NumericalInterval;
 
 typedef Fraction FrameRate;
 
+typedef struct URLType {
+    std::optional<NumericalInterval> range_;
+    std::string source_url_;  // if doesn't present, it will inherit from BaseRUL
+} URLType;
+
+typedef struct BaseURL {
+    std::optional<std::string> service_location_;  // may be useful for CDN
+    URLType url_info_;
+} BaseURL;
+
+typedef struct Initialization {
+} Initialization;
+
 typedef struct audioChannelConfiguration {
-    AudioChannelConfigurationType type_;
+    AudioChannelConfigurationType type_ =
+        AudioChannelConfigurationType::DASH_AUDIO_CHANNEL_CONFIG_DASH;
     optional<int> value_;
     optional<std::string> id_;
 } AudioChannelConfiguration;
 
 typedef struct ContentProtection {
-    DRMType type_;
+    DRMType type_ = DRMType::DASH_DRM_DASH_MP4;
     optional<std::string> value_;
     optional<std::string> id_;
     optional<std::string> cenc_default_kid_;
@@ -116,6 +128,13 @@ typedef struct UTCTiming {
     UTCTimingServerType utc_server_type_;
     std::vector<std::string> servers_;
 } UTCTiming;
+
+typedef struct SupplementalProperty {
+} SupplementalProperty;
+
+typedef struct EssentialProperty {
+} EssentialProperty;
+
 }  // namespace dash
 
 #endif  // !DASH_COMMON_ATTRIBUTES_ELEMENTS_H
