@@ -5,19 +5,13 @@
 
 #include <optional>
 
+#include <deque>
+
 #include "common_attributes_elements.h"
 
 namespace dash {
-class SegmentBase {
-  public:
-    SegmentBase()                                      = default;
-    ~SegmentBase()                                     = default;
-    SegmentBase(SegmentBase& segment)                  = default;
-    SegmentBase(SegmentBase&& segment)                 = default;
-    SegmentBase& operator=(const SegmentBase& segment) = default;
-    SegmentBase& operator=(SegmentBase&& segment)      = default;
 
-  private:
+struct SegmentBaseInformation {
     int time_scale_               = 1;
 
     // specifies the presentation time offset of the Representation relative to the start of the
@@ -51,6 +45,71 @@ class SegmentBase {
 
     // specifies the URL including a possible byte range for the Representation Index Segment.
     URLType representation_index_;  // map to "sidx"
+};
+
+class SegmentBase : public SegmentBaseInformation {
+  public:
+    SegmentBase()                                      = default;
+    ~SegmentBase()                                     = default;
+    SegmentBase(SegmentBase& segment)                  = default;
+    SegmentBase(SegmentBase&& segment)                 = default;
+    SegmentBase& operator=(const SegmentBase& segment) = default;
+    SegmentBase& operator=(SegmentBase&& segment)      = default;
+
+  public:
+};
+
+class SegmentList : public SegmentBaseInformation {
+  public:
+    SegmentList()                              = default;
+    ~SegmentList()                             = default;
+    SegmentList& operator=(const SegmentList&) = default;
+
+  private:
+    class SegmentURL {
+      public:
+        SegmentURL()  = default;
+        ~SegmentURL() = default;
+        optional<std::string> media_;
+        optional<NumericalInterval> media_range_;
+        optional<std::string> index_;
+        optional<NumericalInterval> index_range_;
+    };
+    std::vector<std::unique_ptr<SegmentURL>> segments_;
+};
+
+struct SegmentTimeLineUnit {
+    int64_t segment_time_ = 0;
+    int64_t duration_     = 0; // in the timescale
+};
+
+class SegmentTemplate : public SegmentBaseInformation {
+  public:
+    SegmentTemplate()                                  = default;
+    ~SegmentTemplate()                                 = default;
+    SegmentTemplate& operator=(const SegmentTemplate&) = default;
+
+  private:
+
+    // specifies the constant approximate Segment duration, if present 
+    int duration_ = INT64_MAX;
+
+    // specifies the number of the first Media Segment in this Representation in the Period 
+    int start_number_ = 1;
+
+    // specifies the template to create the Media Segment List
+    optional<std::string> media_;
+
+    // specifies the template to create the Index Segment List
+    optional<std::string> index_;
+
+    // specifies the template to create the Initialization Segment
+    optional<std::string> initialization_segment_;
+
+    // specifies the template to create the Bitstream Switching Segment
+    optional<std::string> bitstream_switching_;
+
+    std::deque<std::unique_ptr<SegmentTimeLineUnit>> segment_time_line_units_;
 };
 }  // namespace dash
 
