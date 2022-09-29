@@ -1,5 +1,4 @@
-#ifndef DASH_PARSER_INTERNAL_H_
-#define  DASH_PARSER_INTERNAL_H_
+#pragma once
 
 #include <string>
 
@@ -17,6 +16,3 @@ namespace dash
 		std::string raw_content;
 	};
 }
-
-
-#endif // !DASH_PARSER_INTERNAL_H_

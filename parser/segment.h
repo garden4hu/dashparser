@@ -1,6 +1,3 @@
-#ifndef DASH_SEGMENT_H
-#define DASH_SEGMENT_H
-
 #pragma once
 
 #include <optional>
@@ -53,5 +50,3 @@ class SegmentBase {
     URLType representation_index_;  // map to "sidx"
 };
 }  // namespace dash
-
-#endif  // !DASH_SEGMENT_H

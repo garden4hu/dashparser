@@ -1,6 +1,3 @@
-#ifndef DASH_COMMON_ATTRIBUTES_ELEMENTS_H
-#define DASH_COMMON_ATTRIBUTES_ELEMENTS_H
-
 #pragma once
 
 #include <memory>
@@ -137,4 +134,3 @@ typedef struct EssentialProperty {
 
 }  // namespace dash
 
-#endif  // !DASH_COMMON_ATTRIBUTES_ELEMENTS_H

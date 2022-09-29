@@ -1,6 +1,3 @@
-#ifndef DASH_MPD_H
-#define DASH_MPD_H
-
 #pragma once
 
 #include <optional>
@@ -66,5 +63,3 @@ public:
 };
 
 } // namespace dash
-
-#endif  // !DASH_MPD_H

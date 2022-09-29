@@ -1,5 +1,4 @@
-#ifndef DASH_COMMON_TYPE_H
-#define DASH_COMMON_TYPE_H
+#pragma once
 
 enum RoleType {
     DASH_ROLE_MAIN,           // primary audio and video
@@ -52,4 +51,3 @@ enum AudioChannelConfigurationType {
     DASH_AUDIO_CHANNEL_CONFIG_Dolby,
 };
 
-#endif  // !DASH_COMMON_TYPE_H

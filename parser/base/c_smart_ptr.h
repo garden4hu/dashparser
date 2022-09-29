@@ -1,7 +1,5 @@
 #pragma once
 
-#ifndef DASH_C_SMART_PTR_H_
-#define DASH_C_SMART_PTR_H_
 
 #include <memory>
 
@@ -17,5 +15,3 @@ class CSmartPtr : public std::unique_ptr<T, void (*)(T*)> {
   CSmartPtr(T* object) : std::unique_ptr<T, void (*)(T*)>(object, deleter) {}
 };
 }  // namespace dash
-
-#endif  // !DASH_C_SMART_PTR_H_

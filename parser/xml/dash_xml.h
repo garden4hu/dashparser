@@ -1,5 +1,4 @@
-#ifndef DASH_PARSER_XML_H_
-#define DASH_PARSER_XML_H_
+#pragma once
 
 #include <absl/types/optional.h>
 #include <fmt/format.h>
@@ -25,11 +24,10 @@ class XmlNode {
   public:
     explicit XmlNode(NodeSmartPtr ptr) : node_(std::move(ptr)) {}
 
-    NodeSmartPtr getParentNode() const { return {node_->parent}; }
+    [[nodiscard]] NodeSmartPtr getParentNode() const { return {node_->parent}; }
 
   private:
     NodeSmartPtr node_;
 };
 }  // namespace dash
 
-#endif  // !DASH_PARSER_XML_H_

@@ -1,5 +1,4 @@
-﻿#ifndef DASH_PARSER_H_
-#define DASH_PARSER_H_
+﻿#pragma once
 
 
 #ifdef __cplusplus
@@ -9,5 +8,3 @@ extern "C"{
 #ifdef __cplusplus
 }
 #endif
-
-#endif // !DASH_PARSER_H_

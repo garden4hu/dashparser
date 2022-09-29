@@ -1,5 +1,4 @@
-#ifndef DASH_IDENTIFIER_H
-#define DASH_IDENTIFIER_H
+#pragma once
 
 namespace dash {
 
@@ -123,5 +122,3 @@ constexpr char kSchemaIdURLParam2016[]          = "rn:mpeg:dash:urlparam:2016";
 constexpr char kSchemaIdResolutionSwitching[]   = "urn:mpeg:dash:resolutionSwitching:2016";
 
 }  // namespace dash
-
-#endif  // !DASH_IDENTIFIER_H

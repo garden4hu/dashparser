@@ -1,5 +1,4 @@
-#ifndef VISIBILITY_H_
-#define VISIBILITY_H_
+#pragma once
 
 #ifdef DASH_PARSER_ENABLE_EXPORT
 
@@ -20,5 +19,3 @@
 #ifndef DASH_PARSER_EXPORT
 #define DASH_PARSER_EXPORT
 #endif
-
-#endif // !VISIBILITY_H_

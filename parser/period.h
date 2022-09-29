@@ -1,5 +1,3 @@
-#ifndef DASH_PERIOD_H
-#define DASH_PERIOD_H
 #pragma once
 
 #include <list>
@@ -69,5 +67,3 @@ class Period {
     std::list<PreSelection> pre_selections_;
 };
 }  // namespace dash
-
-#endif  // !DASH_PERIOD_H
