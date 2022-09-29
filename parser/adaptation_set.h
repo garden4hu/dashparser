@@ -26,17 +26,6 @@ public:
 
     optional<std::string> content_type_;
 
-    optional<int> min_band_width_;
-    optional<int> max_band_width_;
-
-    optional<int> min_width_;
-    optional<int> max_width_;
-
-    optional<int> min_height_;
-    optional<int> max_height_;
-
-    optional<int> min_frame_rate_;
-    optional<int> max_frame_rate_;
 
     bool segment_alignment_    = false;
 

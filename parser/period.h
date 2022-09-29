@@ -59,7 +59,7 @@ class Period {
     optional<SegmentTemplate> segment_template_;
     optional<AssetIdentifier> asset_identifier_;
     std::list<EventStream> event_streams_;
-    std::list<AdaptationSet> adaptation_sets_;
+    std::list<std::unique_ptr<AdaptationSet>> adaptation_sets_;
     std::list<Subset> subsets_;
     std::list<SupplementalProperty> supplemental_properties_;
     std::list<EmptyAdaptationSet> empty_adaptation_sets_;

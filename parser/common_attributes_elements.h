@@ -17,8 +17,8 @@ typedef struct {
 } Fraction;
 
 typedef struct NumericalInterval {
-    int floor   = 0;
-    int ceiling = 0;
+    int floor   = -1;
+    int ceiling = -1;
 } NumericalInterval;
 
 typedef Fraction FrameRate;

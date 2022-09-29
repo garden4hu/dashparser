@@ -36,5 +36,5 @@ target_link_libraries(${PROJECT_NAME}  PRIVATE LibXml2::LibXml2 fmt::fmt-header-
 
 
 enable_testing()
-add_subdirectory(test)
+add_subdirectory(tests)
 
