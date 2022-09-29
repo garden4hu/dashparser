@@ -12,19 +12,22 @@ find_package(fmt CONFIG REQUIRED)
 
 
 list(APPEND DASH_CXX_HEADERS
-	include/common_type.h
+	include/common_type.h 
+	parser/mime.h
 )
 
 
 list(APPEND DASH_CXX_FILES
+	parser/common_attributes_elements.cpp
 	parser/xml/dash_xml.cpp
 	parser/dash_parser.cpp
-	parser/mpd.cpp
+	parser/segment.cpp
+	parser/representation.cpp
 	parser/adaptation_set.cpp
 	parser/period.cpp
-	parser/segment.cpp
-	parser/common_attributes_elements.cpp
 	parser/util.cpp
+	parser/mpd.cpp
+	parser/dash.cpp
 )
 
 

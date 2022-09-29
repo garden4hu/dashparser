@@ -51,3 +51,9 @@ enum AudioChannelConfigurationType {
     DASH_AUDIO_CHANNEL_CONFIG_Dolby,
 };
 
+enum MediaType {
+    AUDIO,
+    VIDEO,
+    SUBTITLE,
+    CLOSED_CAPTION,
+};

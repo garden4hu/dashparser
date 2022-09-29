@@ -5,14 +5,12 @@
 #include <cmath>
 #include <list>
 #include <queue>
+#include "period.h"
 
 using std::optional;
 
 namespace dash {
 
-class ProgramInformation;
-class BaseURL;
-class Location;
 class Period;
 class Metrics;
 class EssentialProperty;
@@ -26,9 +24,9 @@ public:
     Mpd(Mpd& mpd) = default;
     optional<std::string> id_;
 
-    enum class Type {
-        DASH_MPD_TYPE_STATIC,
-        DASH_MPD_TYPE_DYNAMIC
+    enum class Type : int {
+        DASH_MPD_TYPE_STATIC = 0,
+        DASH_MPD_TYPE_DYNAMIC = 1,
     };
 
     struct DynamicAttr {
@@ -54,7 +52,7 @@ public:
 
     std::list<ProgramInformation> program_information_;
     std::list<BaseURL> base_urls_;
-    std::list<Location> locations_;
+    std::list<std::string> locations_;
     std::vector<Period> periods_;
     std::list<Metrics> metrics_;
     std::list<EssentialProperty> essential_properties_;

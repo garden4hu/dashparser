@@ -31,6 +31,7 @@ constexpr char kSchemaIdUTCTimingHttpISO[]       = "urn:mpeg:dash:utc:http-iso:2
 constexpr char kSchemaIdUTCTimingHttpNTP[]       = "urn:mpeg:dash:utc:http-ntp:2014";
 constexpr char kSchemaIdUTCTimingDirect[]        = "urn:mpeg:dash:utc:direct:2014";
 
+
 /**
  * Events Schema ID Uri identifiers
  * Refer to https://dashif.org/identifiers/event_schemes/ for more details
@@ -120,5 +121,15 @@ constexpr char kSchemaIdURLParam2016[]          = "rn:mpeg:dash:urlparam:2016";
 
 //  Open GOP resolution change
 constexpr char kSchemaIdResolutionSwitching[]   = "urn:mpeg:dash:resolutionSwitching:2016";
+
+
+/**
+ * SCTE Schema ID Uri identifiers
+ * More details refer to AMERICAN NATIONAL STANDARD  ANSI/SCTE 214-1 2016:
+ * MPEG DASH for IP-Based Cable Services  Part 1: MPD Constraints and Extensions
+ * Note: Not implement yet.
+ */
+constexpr char kSchemaIdSCTECC608[]             = "urn:scte:dash:cc:cea608:2015";
+constexpr char kSchemaIdSCTECC708[]             = "urn:scte:dash:cc:cea708:2015";
 
 }  // namespace dash

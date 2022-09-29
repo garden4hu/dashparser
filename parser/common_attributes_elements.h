@@ -97,13 +97,16 @@ typedef struct Label {
 typedef Label GroupLabel;
 
 typedef struct CommonAttributesElements {
+    // Mandatory parameters
+    std::string mime_type_; // "application/mp4", "video/mp4", "audio/mp4"
+
+    // Optional parameters
     optional<std::string> profile_;
     optional<int> width_;
     optional<int> height_;
     optional<Fraction> sar_;
     optional<FrameRate> frame_rate_;
     optional<NumericalInterval> audio_sampling_rate_;
-    std::string mime_type_;
     optional<std::string> codecs_;
     optional<int> maximum_sap_period_;
     optional<int> start_with_sap_;
@@ -132,5 +135,21 @@ typedef struct SupplementalProperty {
 typedef struct EssentialProperty {
 } EssentialProperty;
 
-}  // namespace dash
+typedef struct ProgramInformation {
+    std::string lang_;
+    std::string title_;
+} ProgramInformation;
 
+// typedef struct Accessibility {
+//
+// } Accessibility;
+
+typedef struct ContentComponent {
+    int id_;  // track id in ISOBMFF or PID in MP2-TS
+    std::string lang_;
+    std::string content_type_;  // TODO. need to check the type.
+    Fraction par_;
+    std::string tag_;
+    std::vector<RoleType> roles_;
+};
+}  // namespace dash
