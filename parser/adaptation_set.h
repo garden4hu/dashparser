@@ -14,10 +14,8 @@ using std::optional;
 namespace dash {
 class AdaptationSet : public CommonAttributesElements {
   public:
-    AdaptationSet();
+    AdaptationSet() = default;
     ~AdaptationSet()               = default;
-    AdaptationSet(AdaptationSet&)  = default;
-    AdaptationSet(AdaptationSet&&) = default;
 
     optional<std::string> id_;
     optional<uint32_t> group_;

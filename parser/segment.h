@@ -1,8 +1,7 @@
 #pragma once
 
-#include <optional>
-
 #include <deque>
+#include <optional>
 
 #include "common_attributes_elements.h"
 
@@ -15,7 +14,7 @@ struct SegmentBaseInformation {
     // Period
     int presentation_time_offset_ = 0;
 
-    int presentationDuration      = INT32_MAX;  // INT32_MAX is a invalid value
+    int64_t presentationDuration_ = INT64_MAX;  // INT32_MAX is a invalid value
 
     // using for dynamic only. If present, it should not smaller than the timeShiftBufferDepth in
     // MPD level. If not present, it's the timeShiftBufferDepth in MPD level.
@@ -46,14 +45,11 @@ struct SegmentBaseInformation {
 
 class SegmentBase : public SegmentBaseInformation {
   public:
-    SegmentBase()                                      = default;
-    ~SegmentBase()                                     = default;
-    SegmentBase(SegmentBase& segment)                  = default;
-    SegmentBase(SegmentBase&& segment)                 = default;
-    SegmentBase& operator=(const SegmentBase& segment) = default;
-    SegmentBase& operator=(SegmentBase&& segment)      = default;
+    SegmentBase()  = default;
+    ~SegmentBase() = default;
 
   public:
+    void getType() {}
 };
 
 class SegmentList : public SegmentBaseInformation {
@@ -77,7 +73,7 @@ class SegmentList : public SegmentBaseInformation {
 
 struct SegmentTimeLineUnit {
     int64_t segment_time_ = 0;
-    int64_t duration_     = 0; // in the timescale
+    int64_t duration_     = 0;  // in the timescale
 };
 
 class SegmentTemplate : public SegmentBaseInformation {
@@ -87,11 +83,10 @@ class SegmentTemplate : public SegmentBaseInformation {
     SegmentTemplate& operator=(const SegmentTemplate&) = default;
 
   private:
+    // specifies the constant approximate Segment duration, if present
+    int64_t duration_ = INT64_MAX;
 
-    // specifies the constant approximate Segment duration, if present 
-    int duration_ = INT64_MAX;
-
-    // specifies the number of the first Media Segment in this Representation in the Period 
+    // specifies the number of the first Media Segment in this Representation in the Period
     int start_number_ = 1;
 
     // specifies the template to create the Media Segment List

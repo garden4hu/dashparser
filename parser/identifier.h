@@ -1,7 +1,6 @@
 #pragma once
 
 namespace dash {
-
 // Role Schema ID Uri identifier
 constexpr char kSchemaIdRole[]                   = "urn:mpeg:dash:role:2011";
 
@@ -31,7 +30,6 @@ constexpr char kSchemaIdUTCTimingHttpISO[]       = "urn:mpeg:dash:utc:http-iso:2
 constexpr char kSchemaIdUTCTimingHttpNTP[]       = "urn:mpeg:dash:utc:http-ntp:2014";
 constexpr char kSchemaIdUTCTimingDirect[]        = "urn:mpeg:dash:utc:direct:2014";
 
-
 /**
  * Events Schema ID Uri identifiers
  * Refer to https://dashif.org/identifiers/event_schemes/ for more details
@@ -47,8 +45,8 @@ constexpr char kSchemaIdEventPresentationTermination[] = "urn:mpeg:dash:event:tt
 /**
  * Content Rating Schema ID Uri identifiers
  */
-constexpr char kSchemaIdContentRatingDVBGuidance[]         = "urn:dvb:iptv:guidance:2014";
-constexpr char kSchemaIdContentRatingDVBRating[]           = "urn:dvb:iptv:rating:2014";
+constexpr char kSchemaIdContentRatingDVBGuidance[]     = "urn:dvb:iptv:guidance:2014";
+constexpr char kSchemaIdContentRatingDVBRating[]       = "urn:dvb:iptv:rating:2014";
 
 /**
  * Output Protection Schema ID Uri identifier
@@ -110,7 +108,6 @@ constexpr char kSchemaIdProfileMP2TSimple[]     = "urn:mpeg:dash:profile:mp2t-si
 /**
  * Other Schema ID Uri identifiers
  */
-
 // Spatial Relationship Description and dynamic srd
 constexpr char kSchemaIdSRD[]                   = "urn:mpeg:dash:srd:2014";
 constexpr char kSchemaIdSRDDynamic[]            = "urn:mpeg:dash:srd:dynamic:2016";
@@ -121,7 +118,6 @@ constexpr char kSchemaIdURLParam2016[]          = "rn:mpeg:dash:urlparam:2016";
 
 //  Open GOP resolution change
 constexpr char kSchemaIdResolutionSwitching[]   = "urn:mpeg:dash:resolutionSwitching:2016";
-
 
 /**
  * SCTE Schema ID Uri identifiers

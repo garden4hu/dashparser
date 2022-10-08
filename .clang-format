@@ -7,7 +7,7 @@ AccessModifierOffset: -2
 ColumnLimit: 100
 DerivePointerAlignment: false
 PointerAlignment: Left
-SortIncludes: true
+SortIncludes: CaseInsensitive
 SortUsingDeclarations: true
 AlignConsecutiveAssignments: AcrossEmptyLinesAndComments
 AlignConsecutiveBitFields: AcrossEmptyLinesAndComments

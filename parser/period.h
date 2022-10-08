@@ -6,6 +6,8 @@
 
 #include "common_attributes_elements.h"
 #include "segment.h"
+#include "adaptation_set.h"
+
 
 using std::optional;
 
@@ -16,7 +18,7 @@ class SegmentList;
 class SegmentTemplate;
 class AssetIdentifier;
 
-class AdaptationSet;
+
 class Subset;
 class SupplementalProperty;
 class EmptyAdaptationSet;
@@ -47,6 +49,9 @@ class PreSelection;
 
 class Period {
   public:
+    Period() = default;
+    ~Period() = default;
+  public:
     optional<std::string> id_;
     // if present, is PeriodStart. Or refer to the brief above.
     optional<int32_t> start_;
@@ -57,13 +62,13 @@ class Period {
     optional<SegmentBase> segment_bases_;
     optional<SegmentList> segment_lists_;
     optional<SegmentTemplate> segment_template_;
-    optional<AssetIdentifier> asset_identifier_;
+//    optional<AssetIdentifier> asset_identifier_;
     std::list<EventStream> event_streams_;
     std::list<std::unique_ptr<AdaptationSet>> adaptation_sets_;
-    std::list<Subset> subsets_;
+//    std::list<Subset> subsets_;
     std::list<SupplementalProperty> supplemental_properties_;
-    std::list<EmptyAdaptationSet> empty_adaptation_sets_;
+//    std::list<EmptyAdaptationSet> empty_adaptation_sets_;
     std::list<GroupLabel> group_labels_;
-    std::list<PreSelection> pre_selections_;
+//    std::list<PreSelection> pre_selections_;
 };
 }  // namespace dash

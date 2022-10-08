@@ -5,11 +5,9 @@
 namespace dash {
 class Representation : public CommonAttributesElements {
   public:
-    Representation()                                 = default;
-    ~Representation()                                = default;
-    Representation(const Representation&)            = default;
-    Representation& operator=(const Representation&) = default;
-    Representation(const Representation&&)           = default;
+    ~Representation()                           = default;
+    Representation(const Representation&)       = default;
+    Representation(Representation&&)            = default;
 
   public:
     std::string id_;

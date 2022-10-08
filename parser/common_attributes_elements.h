@@ -94,11 +94,11 @@ typedef struct Label {
     optional<std::string> lang_;
 } Label;
 
-typedef Label GroupLabel;
+using GroupLabel = Label;
 
 typedef struct CommonAttributesElements {
     // Mandatory parameters
-    std::string mime_type_; // "application/mp4", "video/mp4", "audio/mp4"
+    std::string mime_type_;  // "application/mp4", "video/mp4", "audio/mp4"
 
     // Optional parameters
     optional<std::string> profile_;
@@ -151,5 +151,5 @@ typedef struct ContentComponent {
     Fraction par_;
     std::string tag_;
     std::vector<RoleType> roles_;
-};
+} ContentComponent;
 }  // namespace dash

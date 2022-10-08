@@ -1,13 +1,11 @@
 #pragma once
 
-#include <absl/types/optional.h>
 #include <fmt/format.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
 #include <optional>
 #include <string>
-
 
 #include "base/c_smart_ptr.h"
 
@@ -25,10 +23,10 @@ class XmlNode {
   public:
     explicit XmlNode(NodeSmartPtr ptr) : node_(std::move(ptr)) {}
 
-    [[nodiscard]] NodeSmartPtr getParentNode() const { return {node_->parent}; }
+    NodeSmartPtr getParentNode() { return {node_->parent}; }
+    std::string getProp(const std::string& name);
 
-  private:
+    public:
     NodeSmartPtr node_;
 };
 }  // namespace dash
-
