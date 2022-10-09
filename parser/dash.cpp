@@ -4,8 +4,8 @@
 
 
 namespace dash {
-StatusCode Dash::open(const std::string& base_url, const std::string& xml) {
-    if (xml.empty()){
+StatusCode Dash::open(const std::string& base_url, const char* xml, int len) {
+    if (!len){
         return StatusCode::kErrorInvalidMPD;
     }
     current_mpd_ = std::make_unique<Mpd>(base_url);

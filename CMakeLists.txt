@@ -10,7 +10,10 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(absl CONFIG REQUIRED)
 find_package(LibXml2 CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
+find_package(date CONFIG REQUIRED)
 
+include_directories(include)
+include_directories(parser)
 
 list(APPEND DASH_CXX_HEADERS
 		include/common_type.h
@@ -33,7 +36,7 @@ list(APPEND DASH_CXX_FILES
 )
 
 
-add_library(${PROJECT_NAME} SHARED ${DASH_CXX_FILES} ${DASH_CXX_HEADERS})
+add_library(${PROJECT_NAME} SHARED ${DASH_CXX_HEADERS} ${DASH_CXX_FILES})
 
 # for MSVC
 set_property(TARGET ${PROJECT_NAME} PROPERTY
@@ -41,12 +44,24 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_include_directories(${PROJECT_NAME} PRIVATE parser)
-target_link_libraries(${PROJECT_NAME}  PRIVATE LibXml2::LibXml2 fmt::fmt-header-only absl::base)
+target_link_libraries(${PROJECT_NAME}  PRIVATE LibXml2::LibXml2 fmt::fmt-header-only absl::base date::date date::date-tz)
 
 
-if(ON)
+#if(ON)
 	find_package(GTest CONFIG REQUIRED)
 	enable_testing()
-	include_directories("test")
-endif()
+#	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/test)
+
+	add_executable(
+			mpd_parser
+            ${DASH_CXX_HEADERS}
+			${DASH_CXX_FILES}
+			test/test_mpd.cpp
+	)
+	target_link_libraries(mpd_parser PRIVATE GTest::gtest GTest::gtest_main LibXml2::LibXml2 fmt::fmt-header-only absl::base date::date date::date-tz)
+## for linking static library,  we should set the runtime flag to avoid the conflicting of symbols.
+	if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+		set_property(TARGET mpd_parser PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+	endif()
+#endif()
 

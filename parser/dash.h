@@ -2,6 +2,8 @@
 
 #include <string>
 
+
+#include "common_type.h"
 #include "mpd.h"
 #include "status.h"
 
@@ -38,11 +40,11 @@ using SegmentUnit = struct {
 
 class Dash {
 public:
-    Dash() = default;
+  Dash() = default;
     ~Dash() = default;
 
 public:
-    StatusCode open(const std::string& base_url, const std::string& xml);
+    StatusCode open(const std::string& base_url, const char* xml, int len);
     StatusCode update(const std::string& base_url, const std::string& xml);
     bool IsLive() { return !static_cast<int>(current_mpd_->IsVod()); }
 

@@ -6,5 +6,6 @@ enum class StatusCode : int {
     kFailed = 0x1000,
     kErrorInvalidMPD = 0x1001,
     kErrorInvalidBaseURL = 0x1002,
+    KErrorInvalidMPDProfile = 0x1003,
 };
 }

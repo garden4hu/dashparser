@@ -1,0 +1,3 @@
+[vod_segment_base]
+    url = https://dash.akamaized.net/dash264/TestCases/1a/sony/SNE_DASH_SD_CASE1A_REVISED.mpd
+    local_name = vod_segment_base.mpd

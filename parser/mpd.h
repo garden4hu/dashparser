@@ -5,8 +5,10 @@
 #include <optional>
 #include <queue>
 #include <string>
+#include <absl/strings/str_split.h>
 
 #include "period.h"
+#include "status.h"
 #include "xml/dash_xml.h"
 
 using std::optional;
@@ -25,7 +27,7 @@ using DynamicAttr = struct DynamicAttr {
 class Mpd : public DynamicAttr {
   public:
     Mpd() = default;
-    explicit Mpd(const std::string& base_url);
+    explicit Mpd(std::string  base_url);
     ~Mpd() = default;
 
     optional<std::string> id_;
@@ -37,7 +39,7 @@ class Mpd : public DynamicAttr {
 
   public:
     bool Parse(const std::string& xml);
-    bool ParseMpdTag(NodeSmartPtr node);
+    StatusCode ParseMpdTag(NodeSmartPtr mpd);
 
     bool IsVod() { return type_ == TYPE::DASH_MPD_TYPE_STATIC; }
 
@@ -87,7 +89,9 @@ class Mpd : public DynamicAttr {
         MPEG2T_SIMPLE
     };
 
-    ProfileType profile_;
+    ProfileType profile_ = ProfileType::ISO_FF_ON_DEMAND;
 };
+
+
 
 }  // namespace dash

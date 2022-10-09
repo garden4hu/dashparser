@@ -21,7 +21,9 @@ typedef struct NumericalInterval {
     int ceiling = -1;
 } NumericalInterval;
 
-typedef Fraction FrameRate;
+ typedef Fraction FrameRate;
+
+//using FrameRate = std::ratio<int, int>;
 
 typedef struct URLType {
     std::optional<NumericalInterval> range_;
