@@ -1,18 +1,19 @@
 #include "mpd.h"
 
 #include <chrono>
+#include <ctime>
 #include <sstream>
 #include <utility>
-#include <ctime>
 
 #include "identifier.h"
+#include "utils/dash_time.h"
 
 namespace dash {
 
 Mpd::Mpd(std::string base_url) : base_url_(std::move(base_url)) {}
 
-bool Mpd::Parse(const std::string& xml) {
-    std::optional<DocSmartPtr> docXml = initXmlDoc(xml.c_str(), xml.length());
+bool Mpd::Parse(const char* xml, int len) {
+    std::optional<DocSmartPtr> docXml = initXmlDoc(xml, len);
     if (!docXml.has_value()) {
         return false;
     }
@@ -40,7 +41,7 @@ bool Mpd::Parse(const std::string& xml) {
 StatusCode Mpd::ParseMpdTag(NodeSmartPtr mpd) {
     // find type prop in MPD node
     auto mpd_type = getNodeProp(mpd, "type");
-    auto profile  = getNodeProp(mpd, "profile");
+    auto profile  = getNodeProp(mpd, "profiles");
     if (profile.empty()) {
         return StatusCode::kErrorInvalidMPD;
     }
@@ -70,11 +71,19 @@ StatusCode Mpd::ParseMpdTag(NodeSmartPtr mpd) {
         return StatusCode::KErrorInvalidMPDProfile;
     }
 
+    // get id
+    id_                      = getNodeProp(mpd, "id").empty() ? getNodeProp(mpd, "id") : base_url_;
+
+    availability_start_time_ = ParseTimeString(getNodeProp(mpd, "availabilityStartTime"));
+    availability_end_time_   = ParseTimeString(getNodeProp(mpd, "availabilityEndTime"));
+
     // check live props
     if (type_ == TYPE::DASH_MPD_TYPE_DYNAMIC) {
-        auto availabilityStartTime = getNodeProp(mpd, "availabilityStartTime");
-        auto timeShiftBufferDepth  = getNodeProp(mpd, "timeShiftBufferDepth");
-        auto publishTime           = getNodeProp(mpd, "publishTime");
+        // availability_start_time_ = getNodeProp(mpd, "availabilityStartTime");
+        auto timeShiftBufferDepth = getNodeProp(mpd, "timeShiftBufferDepth");
+        auto publishTime          = getNodeProp(mpd, "publishTime");
+        auto minimumUpdatePeriod  = getNodeProp(mpd, "minimumUpdatePeriod");
+        auto minBufferTime        = getNodeProp(mpd, "minBufferTime");
     }
 
     return StatusCode::kOk;

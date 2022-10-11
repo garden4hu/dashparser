@@ -38,7 +38,7 @@ class Mpd : public DynamicAttr {
     };
 
   public:
-    bool Parse(const std::string& xml);
+    bool Parse(const char* xml, int len);
     StatusCode ParseMpdTag(NodeSmartPtr mpd);
 
     bool IsVod() { return type_ == TYPE::DASH_MPD_TYPE_STATIC; }

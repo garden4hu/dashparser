@@ -1,11 +1,33 @@
+LIST(APPEND LIB_DASH_PARSER_HEADER
+        ../include/common_type.h
+        ../parser/mime.h
+        ../parser/identifier.h
+        ../parser/utils/dash_time.h
+        )
+
+
+LIST(APPEND LIB_DASH_PARSER_CXX_FILES
+        ../parser/common_attributes_elements.cpp
+        ../parser/xml/dash_xml.cpp
+        ../parser/dash_parser.cpp
+        ../parser/segment.cpp
+        ../parser/representation.cpp
+        ../parser/adaptation_set.cpp
+        ../parser/period.cpp
+        ../parser/util.cpp
+        ../parser/mpd.cpp
+        ../parser/dash.cpp
+        ../parser/utils/dash_time.cpp
+        ../parser/utils/prtime.cpp
+        )
 
 add_executable(
         mpd_parser
-        test_mpd.cpp
-)
+        ${LIB_DASH_PARSER_HEADER}
+        ${LIB_DASH_PARSER_CXX_FILES}
+        test_mpd.cpp)
 
-target_link_libraries(mpd_parser PRIVATE GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
-
+target_link_libraries(mpd_parser PRIVATE GTest::gtest GTest::gtest_main LibXml2::LibXml2 fmt::fmt-header-only absl::base date::date date::date-tz)
 #add_test(
 #        NAME
 #        mpd_parser.unittest

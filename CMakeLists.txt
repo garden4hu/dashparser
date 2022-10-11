@@ -19,28 +19,31 @@ list(APPEND DASH_CXX_HEADERS
 		include/common_type.h
 		parser/mime.h
 		parser/identifier.h
+		parser/utils/dash_time.h
 )
 
 
 list(APPEND DASH_CXX_FILES
-	parser/common_attributes_elements.cpp
-	parser/xml/dash_xml.cpp
-	parser/dash_parser.cpp
-	parser/segment.cpp
-	parser/representation.cpp
-	parser/adaptation_set.cpp
-	parser/period.cpp
-	parser/util.cpp
-	parser/mpd.cpp
-	parser/dash.cpp
+		parser/common_attributes_elements.cpp
+		parser/xml/dash_xml.cpp
+		parser/dash_parser.cpp
+		parser/segment.cpp
+		parser/representation.cpp
+		parser/adaptation_set.cpp
+		parser/period.cpp
+		parser/util.cpp
+		parser/mpd.cpp
+		parser/dash.cpp
+		parser/utils/dash_time.cpp
 )
 
 
 add_library(${PROJECT_NAME} SHARED ${DASH_CXX_HEADERS} ${DASH_CXX_FILES})
 
 # for MSVC
-set_property(TARGET ${PROJECT_NAME} PROPERTY
-		MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+	## set_property(TARGET mpd_parser PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_include_directories(${PROJECT_NAME} PRIVATE parser)
@@ -50,18 +53,18 @@ target_link_libraries(${PROJECT_NAME}  PRIVATE LibXml2::LibXml2 fmt::fmt-header-
 #if(ON)
 	find_package(GTest CONFIG REQUIRED)
 	enable_testing()
-#	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/test)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
 
-	add_executable(
-			mpd_parser
-            ${DASH_CXX_HEADERS}
-			${DASH_CXX_FILES}
-			test/test_mpd.cpp
-	)
-	target_link_libraries(mpd_parser PRIVATE GTest::gtest GTest::gtest_main LibXml2::LibXml2 fmt::fmt-header-only absl::base date::date date::date-tz)
+#	add_executable(
+#			mpd_parser
+#            ${DASH_CXX_HEADERS}
+#			${DASH_CXX_FILES}
+#			test/test_mpd.cpp
+#			parser/utils/prtime.h)
+
 ## for linking static library,  we should set the runtime flag to avoid the conflicting of symbols.
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-		set_property(TARGET mpd_parser PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+		## set_property(TARGET mpd_parser PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 	endif()
 #endif()
 
