@@ -16,8 +16,20 @@ BaseURL parseBaseUrl(const xmlNodePtr node) {
     }
     auto range = getNodeProp(node,"byteRange");
     if(!range.empty()){
-
+        // byteRange looks like:
+        //  1. $base$?$query$&range=$first$-$last$
+        //  2. $base$/range/$first$-$last$
+        // we just to check where should the range locates, PATH OR QUERY
+        // Note: it doesn't check whether the template contains unrecognized identifiers
+        if (range.find("/range/")){
+            base_url.range_locates_query = false;
+        }
+        if (range.find("?$query$")){
+            base_url.range_locates_query = true;
+        }
     }
+
+    return base_url;
 }
 }
 

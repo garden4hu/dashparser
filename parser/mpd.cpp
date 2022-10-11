@@ -1,13 +1,11 @@
 #include "mpd.h"
 
-#include <chrono>
-#include <ctime>
-#include <sstream>
 #include <utility>
 
 #include "base/helper.h"
 #include "identifier.h"
 #include "utils/dash_time.h"
+#include <absl/strings/match.h>
 
 namespace dash {
 
@@ -52,33 +50,31 @@ StatusCode Mpd::parseMpdLevelAttr(const xmlNodePtr mpd) {
         if (profile.empty()) {
             return StatusCode::kErrorInvalidMPD;
         }
-        if (profile.find(kSchemaIdProfileISOFFVOD) || profile.find(kSchemaIdProfileISOFFExtVOD)) {
+        if (absl::StrContains(profile,kSchemaIdProfileISOFFVOD) || absl::StrContains(profile,kSchemaIdProfileISOFFExtVOD)) {
             if (mpd_type == "static" || mpd_type.empty()) {
                 type_ = TYPE::DASH_MPD_TYPE_STATIC;
             }
-            profile_ = profile.find(kSchemaIdProfileISOFFVOD) ? ProfileType::ISO_FF_ON_DEMAND
+            profile_ = absl::StrContains(profile,kSchemaIdProfileISOFFVOD) ? ProfileType::ISO_FF_ON_DEMAND
                                                               : ProfileType::ISO_FF_EXT_ON_DEMAND;
-        } else if (profile.find(kSchemaIdProfileISOFFLIVE) ||
-                   profile.find(kSchemaIdProfileISOFFExtLIVE)) {
+        } else if (absl::StrContains(profile,kSchemaIdProfileISOFFLIVE) ||
+                   absl::StrContains(profile,kSchemaIdProfileISOFFExtLIVE)) {
             if (mpd_type == "dynamic" || mpd_type.empty()) {
                 type_ = TYPE::DASH_MPD_TYPE_DYNAMIC;
             }
-            profile_ = profile.find(kSchemaIdProfileISOFFLIVE) ? ProfileType::ISO_FF_LIVE
+            profile_ = absl::StrContains(profile,kSchemaIdProfileISOFFLIVE) ? ProfileType::ISO_FF_LIVE
                                                                : ProfileType::ISO_FF_EXT_LIVE;
-        } else if (profile.find(kSchemaIdProfileISOFFMain) ||
-                   profile.find(kSchemaIdProfileISOFFCommon)) {
+        } else if (absl::StrContains(profile, kSchemaIdProfileISOFFMain) || absl::StrContains(profile, kSchemaIdProfileISOFFCommon) ) {
             type_    = mpd_type == "dynamic" ? TYPE::DASH_MPD_TYPE_DYNAMIC : TYPE::DASH_MPD_TYPE_STATIC;
-            profile_ = profile.find(kSchemaIdProfileISOFFMain) ? ProfileType::ISO_FF_MAIN
+            profile_ = absl::StrContains(profile,kSchemaIdProfileISOFFMain) ? ProfileType::ISO_FF_MAIN
                                                                : ProfileType::ISO_FF_COMMON;
-        } else if (profile.find(kSchemaIdProfileMP2TMain) || profile.find(kSchemaIdProfileMP2TSimple)) {
+        } else if (absl::StrContains(profile,kSchemaIdProfileMP2TMain) || absl::StrContains(profile,kSchemaIdProfileMP2TSimple)) {
             type_    = mpd_type == "dynamic" ? TYPE::DASH_MPD_TYPE_DYNAMIC : TYPE::DASH_MPD_TYPE_STATIC;
-            profile_ = profile.find(kSchemaIdProfileMP2TMain) ? ProfileType::MPEG2T_MAIN
+            profile_ = absl::StrContains(profile,kSchemaIdProfileMP2TMain) ? ProfileType::MPEG2T_MAIN
                                                               : ProfileType::MPEG2T_SIMPLE;
         } else {
             return StatusCode::KErrorInvalidMPDProfile;
         }
 
-        // get id
         id_ = getNodeProp(mpd, "id").empty() ? getNodeProp(mpd, "id") : base_url_;
         SetIfHasValue<int, int64_t>(min_buffer_time_,
                                     ParseDurationString(getNodeProp(mpd, "minBufferTime")));

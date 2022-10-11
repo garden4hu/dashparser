@@ -4,6 +4,8 @@ LIST(APPEND LIB_DASH_PARSER_HEADER
         ../parser/identifier.h
         ../parser/utils/dash_time.h
         ../parser/common_parser.h
+        ../parser/utils/url_parser.h
+        ../parser/utils/url.h
         )
 
 
@@ -21,13 +23,16 @@ LIST(APPEND LIB_DASH_PARSER_CXX_FILES
         ../parser/utils/dash_time.cpp
         ../parser/utils/prtime.cpp
         ../parser/common_parser.cpp
+        ../parser/utils/url_parser.cpp
+        ../parser/utils/url.cpp
+        ../parser/common_parser.cpp
         )
 
 add_executable(
         mpd_parser
         ${LIB_DASH_PARSER_HEADER}
         ${LIB_DASH_PARSER_CXX_FILES}
-        test_mpd.cpp ../parser/common_parser.cpp)
+        test_mpd.cpp     )
 
 target_link_libraries(mpd_parser PRIVATE GTest::gtest GTest::gtest_main LibXml2::LibXml2 fmt::fmt-header-only absl::base absl::strings)
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")

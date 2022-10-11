@@ -12,5 +12,5 @@ _deps
 
 .vs/*
 .vscode/*
-
+.idea/*
 out/*

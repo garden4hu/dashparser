@@ -7,6 +7,7 @@
 #include "../parser/utils/prtime.h"
 #include "status.h"
 #include "../parser/utils/dash_time.h"
+#include "../parser/utils/url.h"
 using std::cout;
 using std::endl;
 
@@ -80,5 +81,15 @@ TEST(dash_parser, test_xml_doc){
     bool found = false;
     auto item    = doc->children;
     cout <<  FindChildNode(doc->children,"MPD") << endl;
+}
+
+TEST(dash_parser, test_parse_url){
+//    dash::URL url("https://www.google.com/path?a=2");
+//    if (url.ParsedOK() == false){
+//        cout << "parsed OK \n";
+//    }else {
+//        cout << "parsed FAIL \n";
+//    }
+    cout << "OK" << endl;
 }
 }  // namespace

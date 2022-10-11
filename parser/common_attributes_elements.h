@@ -29,12 +29,13 @@ typedef struct NumericalInterval {
 
 typedef struct URLType {
     std::optional<NumericalInterval> range_;
-    std::string source_url_;  // if doesn't present, it will inherit from BaseRUL
+    std::string source_url_;  // if it doesn't present, it will inherit from BaseRUL
 } URLType;
 
 typedef struct BaseURL {
     std::optional<std::string> service_location_;  // may be useful for CDN
     URLType url_info_;
+    bool range_locates_query = false;
 } BaseURL;
 
 typedef struct Initialization {

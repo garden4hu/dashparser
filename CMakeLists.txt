@@ -42,7 +42,7 @@ list(APPEND DASH_CXX_FILES
 )
 
 
-add_library(${PROJECT_NAME} SHARED ${DASH_CXX_HEADERS} ${DASH_CXX_FILES})
+add_library(${PROJECT_NAME} SHARED ${DASH_CXX_HEADERS} ${DASH_CXX_FILES} parser/utils/url_parser.cpp parser/utils/url_parser.h parser/utils/url.cpp parser/utils/url.h)
 
 # for MSVC
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")

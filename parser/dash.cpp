@@ -9,7 +9,8 @@ StatusCode Dash::open(const std::string& base_url, const char* xml, int len) {
         return StatusCode::kErrorInvalidMPD;
     }
     current_mpd_ = std::make_unique<Mpd>(base_url);
-    if (!current_mpd_->Parse(xml, len)){
+    auto result = current_mpd_->Parse(xml, len);
+    if (result != StatusCode::kOk ){
         return StatusCode::kErrorInvalidMPD;
     }
     return StatusCode::kOk;
