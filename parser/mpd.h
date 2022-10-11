@@ -1,11 +1,12 @@
 #pragma once
 
+#include <absl/strings/str_split.h>
+
 #include <cmath>
 #include <list>
 #include <optional>
 #include <queue>
 #include <string>
-#include <absl/strings/str_split.h>
 
 #include "period.h"
 #include "status.h"
@@ -18,16 +19,16 @@ namespace dash {
 class Metrics {};  // place holder
 
 using DynamicAttr = struct DynamicAttr {
-    int64_t publish_time_ = INT64_MIN;
-    optional<int64_t> minimum_update_period_;
+    int64_t publish_time_ = INT64_MIN; // INT64_MIN means always available
     int64_t time_shift_buffer_depth_ = INT64_MAX;
+    optional<int64_t> minimum_update_period_;
     optional<int32_t> suggested_presentation_delay_;
 };
 
 class Mpd : public DynamicAttr {
   public:
     Mpd() = default;
-    explicit Mpd(std::string  base_url);
+    explicit Mpd(std::string base_url);
     ~Mpd() = default;
 
     optional<std::string> id_;
@@ -38,10 +39,13 @@ class Mpd : public DynamicAttr {
     };
 
   public:
-    bool Parse(const char* xml, int len);
-    StatusCode ParseMpdTag(NodeSmartPtr mpd);
-
+    StatusCode Parse(const char* xml, int len);
+    StatusCode ParseMpdTag(const xmlNodePtr mpd);
     bool IsVod() { return type_ == TYPE::DASH_MPD_TYPE_STATIC; }
+
+  private:
+    StatusCode parseMpdLevelAttr(const xmlNodePtr mpd);
+
 
   private:
     TYPE type_ = TYPE::DASH_MPD_TYPE_STATIC;
@@ -54,9 +58,13 @@ class Mpd : public DynamicAttr {
     // of the last Period are present.
     optional<int64_t> media_presentation_duration_;
 
-    optional<int64_t> max_segment_duration_;  // the duration of any segment
+    // the duration of any segment in current mpd and future update mpd
+    optional<int64_t> max_segment_duration_;
 
-    int32_t min_buffer_time_ = 0;
+    // the duration of any media segment in current mpd
+    optional<int64_t> max_sub_segment_duration_;
+
+    int min_buffer_time_ = 0;
 
     std::vector<std::unique_ptr<Period>> periods_;
 
@@ -90,8 +98,10 @@ class Mpd : public DynamicAttr {
     };
 
     ProfileType profile_ = ProfileType::ISO_FF_ON_DEMAND;
+
+  private:
+    // XML Doc manipulate
+    DocSmartPtr doc;
 };
-
-
 
 }  // namespace dash

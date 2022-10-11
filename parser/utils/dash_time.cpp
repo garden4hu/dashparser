@@ -24,7 +24,8 @@ namespace dash {
 
 #define CheckBit(x, y) ((x >> y) & 1)
 
-std::optional<int64_t> ParseDurationString(std::string& delta) {
+std::optional<int64_t> ParseDurationString(const std::string& duration) {
+    std::string_view delta(duration);
     int i = -1;
     do {
         while (++i < delta.length()) {

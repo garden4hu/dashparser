@@ -14,7 +14,7 @@ namespace {
 std::vector<char> ReadMPD(const char* path, int& out_size) {
     std::vector<char> ret;
     do {
-        FILE* fp = fopen(path, "rb");
+        FILE* fp = fopen(path, "rb+");
         if (!fp) {
             break ;
         }
@@ -67,5 +67,18 @@ TEST(dash_parser, test_parse_duration){
 
     GTEST_ASSERT_FALSE(!delta_01.has_value());
     cout << delta_01.value() << endl;
+}
+
+TEST(dash_parser, test_xml_doc){
+    auto dash = std::make_unique<Dash>();
+    int len = 0;
+    auto data = ReadMPD("D:\\Github\\dashparser\\test\\assets\\vod_segment_base.mpd",len);
+    if (data.empty()) {
+        FAIL();
+    }
+    auto doc = initXmlDoc(&data[0],data.size());
+    bool found = false;
+    auto item    = doc->children;
+    cout <<  FindChildNode(doc->children,"MPD") << endl;
 }
 }  // namespace

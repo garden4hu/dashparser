@@ -11,13 +11,15 @@ using std::optional;
 
 namespace dash {
 
+
+
 typedef struct {
     int num;
     int den;
 } Fraction;
 
 typedef struct NumericalInterval {
-    int floor   = -1;
+    int flooring   = -1;
     int ceiling = -1;
 } NumericalInterval;
 

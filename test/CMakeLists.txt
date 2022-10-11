@@ -3,6 +3,7 @@ LIST(APPEND LIB_DASH_PARSER_HEADER
         ../parser/mime.h
         ../parser/identifier.h
         ../parser/utils/dash_time.h
+        ../parser/common_parser.h
         )
 
 
@@ -19,15 +20,19 @@ LIST(APPEND LIB_DASH_PARSER_CXX_FILES
         ../parser/dash.cpp
         ../parser/utils/dash_time.cpp
         ../parser/utils/prtime.cpp
+        ../parser/common_parser.cpp
         )
 
 add_executable(
         mpd_parser
         ${LIB_DASH_PARSER_HEADER}
         ${LIB_DASH_PARSER_CXX_FILES}
-        test_mpd.cpp)
+        test_mpd.cpp ../parser/common_parser.cpp)
 
-target_link_libraries(mpd_parser PRIVATE GTest::gtest GTest::gtest_main LibXml2::LibXml2 fmt::fmt-header-only absl::base date::date date::date-tz)
+target_link_libraries(mpd_parser PRIVATE GTest::gtest GTest::gtest_main LibXml2::LibXml2 fmt::fmt-header-only absl::base absl::strings)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    set_property(TARGET mpd_parser PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
 #add_test(
 #        NAME
 #        mpd_parser.unittest
