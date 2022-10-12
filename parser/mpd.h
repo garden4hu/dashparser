@@ -1,7 +1,5 @@
 #pragma once
 
-#include <absl/strings/str_split.h>
-
 #include <cmath>
 #include <list>
 #include <optional>
@@ -10,7 +8,6 @@
 
 #include "period.h"
 #include "status.h"
-#include "xml/dash_xml.h"
 
 using std::optional;
 
@@ -19,10 +16,10 @@ namespace dash {
 class Metrics {};  // place holder
 
 using DynamicAttr = struct DynamicAttr {
-    int64_t publish_time_ = INT64_MIN; // INT64_MIN means always available
+    int64_t publish_time_            = INT64_MIN;  // INT64_MIN means always available
     int64_t time_shift_buffer_depth_ = INT64_MAX;
-    optional<int64_t> minimum_update_period_;
-    optional<int32_t> suggested_presentation_delay_;
+    std::optional<int64_t> minimum_update_period_;
+    std::optional<int32_t> suggested_presentation_delay_;
 };
 
 class Mpd : public DynamicAttr {
@@ -31,7 +28,7 @@ class Mpd : public DynamicAttr {
     explicit Mpd(std::string base_url);
     ~Mpd() = default;
 
-    optional<std::string> id_;
+    std::string id_;
 
     enum class TYPE : int {
         DASH_MPD_TYPE_STATIC  = 0,
@@ -40,29 +37,29 @@ class Mpd : public DynamicAttr {
 
   public:
     StatusCode Parse(const char* xml, int len);
-    StatusCode ParseMpdTag(const xmlNodePtr mpd);
+    StatusCode ParseMpdTag(void* mpd);
     bool IsVod() { return type_ == TYPE::DASH_MPD_TYPE_STATIC; }
 
   private:
-    StatusCode parseMpdLevelAttr(const xmlNodePtr mpd);
-
+    StatusCode parseMpdLevelAttr(const xmlNodePtr node);
+    StatusCode ParsePeriod(xmlNodePtr period_node);
 
   private:
     TYPE type_ = TYPE::DASH_MPD_TYPE_STATIC;
 
-    optional<int64_t> availability_start_time_;  // shall be present when dynamic
+    std::optional<int64_t> availability_start_time_;  // shall be present when dynamic
 
-    optional<int64_t> availability_end_time_;  // the last segment end time
+    std::optional<int64_t> availability_end_time_;  // the last segment end time
 
     // shall be present when neither the attribute MPD@minimumUpdatePeriod nor the Period @duration
     // of the last Period are present.
-    optional<int64_t> media_presentation_duration_;
+    std::optional<int64_t> media_presentation_duration_;
 
     // the duration of any segment in current mpd and future update mpd
-    optional<int64_t> max_segment_duration_;
+    std::optional<int64_t> max_segment_duration_;
 
     // the duration of any media segment in current mpd
-    optional<int64_t> max_sub_segment_duration_;
+    std::optional<int64_t> max_sub_segment_duration_;
 
     int min_buffer_time_ = 0;
 

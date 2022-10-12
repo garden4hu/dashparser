@@ -7,6 +7,7 @@
 #include "common_attributes_elements.h"
 #include "segment.h"
 #include "adaptation_set.h"
+#include "status.h"
 
 
 using std::optional;
@@ -51,14 +52,18 @@ class Period {
   public:
     Period() = default;
     ~Period() = default;
+
+  public:
+    StatusCode ParsePeriod(void* node);
+
   public:
     optional<std::string> id_;
     // if present, is PeriodStart. Or refer to the brief above.
-    optional<int32_t> start_;
-    optional<int32_t> duration_;
+    optional<uint32_t> start_;
+    optional<uint32_t> duration_;
     bool bit_stream_switching_ = false;
 
-    std::list<BaseURL> base_url_;  // prefer the first item as the base URL
+    std::list<BaseURL> base_urls_;  // prefer the first item as the base URL
     optional<SegmentBase> segment_bases_;
     optional<SegmentList> segment_lists_;
     optional<SegmentTemplate> segment_template_;

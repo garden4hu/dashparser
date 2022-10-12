@@ -16,9 +16,14 @@ enum RoleType {
 };
 
 enum UTCTimingServerType {
-    DASH_UTC_TIMING_SERVER_HTTP,    // http based timing server
-    DASH_UTC_TIMING_SERVER_NTP,     // ntp based timing server
-    DASH_UTC_TIMING_SERVER_DIRECT,  // direct based timing server
+
+    DASH_UTC_TIMING_SERVER_NTP,           // ntp based timing server
+    DASH_UTC_TIMING_SERVER_SNTP,          // sntp based timing server
+    DASH_UTC_TIMING_SERVER_HTTP_HEAD,     // http head based timing server
+    DASH_UTC_TIMING_SERVER_HTTP_XS_DATE,  // http xs-date based timing server
+    DASH_UTC_TIMING_SERVER_HTTP_NTP,      // http NTP based timing server
+    DASH_UTC_TIMING_SERVER_HTTP_ISO,      // http ISO based timing server
+    DASH_UTC_TIMING_SERVER_DIRECT,        // direct based timing server
 };
 
 /**

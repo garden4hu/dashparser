@@ -8,6 +8,8 @@
 #include "common_attributes_elements.h"
 #include "representation.h"
 #include "segment.h"
+#include "status.h"
+#include <libxml/tree.h>
 
 using std::optional;
 
@@ -17,7 +19,10 @@ class AdaptationSet : public CommonAttributesElements {
     AdaptationSet() = default;
     ~AdaptationSet()               = default;
 
-    optional<std::string> id_;
+  public:
+    StatusCode ParseAdaptationSet(xmlNodePtr node);
+
+    std::string id_;
     optional<uint32_t> group_;
 
     optional<std::string> lang_;

@@ -6,6 +6,10 @@
 #include <vector>
 
 #include "common_type.h"
+#include "status.h"
+
+
+
 
 using std::optional;
 
@@ -100,7 +104,13 @@ typedef struct Label {
 
 using GroupLabel = Label;
 
-typedef struct CommonAttributesElements {
+class CommonAttributesElements {
+  public:
+    CommonAttributesElements() = default;
+    ~CommonAttributesElements() = default;
+  public:
+    StatusCode Parse(void* node);
+  private:
     // Mandatory parameters
     std::string mime_type_;  // "application/mp4", "video/mp4", "audio/mp4"
 
@@ -126,11 +136,11 @@ typedef struct CommonAttributesElements {
     std::vector<RandomAccess> random_access_;
     std::vector<Label> labels_;
     std::vector<GroupLabel> group_labels_;
-} CommonAttributesElements;
+} ;
 
 typedef struct UTCTiming {
     UTCTimingServerType utc_server_type_;
-    std::vector<std::string> servers_;
+    std::string servers_;
 } UTCTiming;
 
 typedef struct SupplementalProperty {

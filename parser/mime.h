@@ -1,28 +1,38 @@
 #pragma once
-
 #include <libxml/tree.h>
+xmlChar* kElemMpd                        = (xmlChar*)"MPD";
+xmlChar* kElemProgramInformation         = (xmlChar*)"ProgramInformation";
+xmlChar* kElemBaseURL                    = (xmlChar*)"BaseURL";
+xmlChar* kElemLocation                   = (xmlChar*)"Location";
+xmlChar* kElemPeriod                     = (xmlChar*)"Period";
+xmlChar* kElemMetrics                    = (xmlChar*)"EssentialMetrics";
+xmlChar* kElemEssentialProperty          = (xmlChar*)"EssentialProperty";
+xmlChar* kElemSupplementalProperty       = (xmlChar*)"SupplementalProperty";
+xmlChar* kElemUTCTiming                  = (xmlChar*)"UTCTiming";
+xmlChar* kElemAdaptationSet                  = (xmlChar*)"AdaptationSet";
 
-constexpr xmlChar kElemMpd[]                        = "MPD";
-constexpr xmlChar kElemProgramInformation[]         = "ProgramInformation";
-constexpr xmlChar kElemBaseURL[]                    = "BaseURL";
-constexpr xmlChar kElemLocation[]                   = "Location";
-constexpr xmlChar kElemPeriod[]                     = "Period";
-constexpr xmlChar kElemMetrics[]                    = "EssentialMetrics";
-constexpr xmlChar kElemEssentialProperty[]          = "EssentialProperty";
-constexpr xmlChar kElemSupplementalProperty[]       = "SupplementalProperty";
-constexpr xmlChar kElemUTCTiming[]                  = "UTCTiming";
+// common attributes
+xmlChar* kPropServiceLocation            = (xmlChar*)"serviceLocation";
+xmlChar* kPropValue                      = (xmlChar*)"value";
+xmlChar* kPropID                         = (xmlChar*)"id";
+xmlChar* kPropType                       = (xmlChar*)"type";
+xmlChar* kPropSchemeIdUri                = (xmlChar*)"schemeIdUri";
+xmlChar* kPropStart                      = (xmlChar*)"start";
+xmlChar* kPropDuration                   = (xmlChar*)"duration";
+
+// BaseURL Attribute
+xmlChar* kPropByteRange                  = (xmlChar*)"byteRange";
 
 // attributes in mpd
-constexpr xmlChar kAttrID[]                         = "id";
-constexpr xmlChar kAttrProfiles[]                   = "profiles";
-constexpr xmlChar kAttrType[]                       = "type";
-constexpr xmlChar kAttrAvailabilityStartTime[]      = "availabilityStartTime";
-constexpr xmlChar kAttrPublishTime[]                = "publishTime";
-constexpr xmlChar kAttrAvailabilityEndTime[]        = "availabilityEndTime";
-constexpr xmlChar kAttrMediaPresentationDuration[]  = "mediaPresentationDuration";
-constexpr xmlChar kAttrMinimumUpdatePeriod[]        = "minimumUpdatePeriod";
-constexpr xmlChar kAttrMinBufferTime[]              = "minBufferTime";
-constexpr xmlChar kAttrTimeShiftBufferDepth[]       = "timeShiftBufferDepth";
-constexpr xmlChar kAttrSuggestedPresentationDelay[] = "suggestedPresentationDelay";
-constexpr xmlChar kAttrMaxSegmentDuration[]         = "maxSegmentDuration";
-constexpr xmlChar kAttrMaxSubsegmentDuration[]      = "maxSubsegmentDuration";
+
+xmlChar* kPropProfiles                   = (xmlChar*)"profiles";
+xmlChar* kPropAvailabilityStartTime      = (xmlChar*)"availabilityStartTime";
+xmlChar* kPropPublishTime                = (xmlChar*)"publishTime";
+xmlChar* kPropAvailabilityEndTime        = (xmlChar*)"availabilityEndTime";
+xmlChar* kPropMediaPresentationDuration  = (xmlChar*)"mediaPresentationDuration";
+xmlChar* kPropMinimumUpdatePeriod        = (xmlChar*)"minimumUpdatePeriod";
+xmlChar* kPropMinBufferTime              = (xmlChar*)"minBufferTime";
+xmlChar* kPropTimeShiftBufferDepth       = (xmlChar*)"timeShiftBufferDepth";
+xmlChar* kPropSuggestedPresentationDelay = (xmlChar*)"suggestedPresentationDelay";
+xmlChar* kPropMaxSegmentDuration         = (xmlChar*)"maxSegmentDuration";
+xmlChar* kPropMaxSubsegmentDuration      = (xmlChar*)"maxSubsegmentDuration";

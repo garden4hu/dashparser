@@ -19,24 +19,21 @@ std::string getNodeProp(NodeSmartPtr& ptr, const char* prop_name) {
 }
 
 
-xmlNodePtr FindChildNode( const xmlNodePtr & node, const std::string& name){
-    bool found = false;
+xmlNodePtr FindChildNode( const xmlNodePtr & node, const xmlCharPtr  node_name){
     auto item    = node->children;
     while (item != nullptr) {
-        if (!memcmp(item->name, name.c_str(), name.length())) {
-            found = true;
-            break;
+        if (!xmlStrEqual(item->name, node_name)) {
+            return item;
         }
         item = item->next;
     }
-    return found ? item : nullptr;
 }
 
-xmlNodePtr FindChildNodeInDoc( const DocSmartPtr & doc, const std::string& name){
+xmlNodePtr FindChildNodeInDoc( const DocSmartPtr & doc, xmlCharPtr const node_name){
     bool found = false;
     auto item    = doc->children;
     while (item != nullptr) {
-        if (!memcmp(item->name, name.c_str(), name.length())) {
+        if (xmlStrEqual(item->name, node_name)  == 0) {
             found = true;
             break;
         }
@@ -45,25 +42,22 @@ xmlNodePtr FindChildNodeInDoc( const DocSmartPtr & doc, const std::string& name)
     return found ? item : nullptr;
 }
 
-std::string getNodeProp(const xmlNodePtr& node, const std::string& prop_name) {
-    auto prop = node->properties;
-    bool found = false;
-    while(prop != nullptr){
-        if (memcmp(prop->name,prop_name.c_str(),prop_name.length()) == 0){
-            found = true;
-            break ;
-        }
-        prop = prop->next;
+std::string getNodeProp(const xmlNodePtr& node, const xmlCharPtr prop_name) {
+    std::string prop{};
+    auto attr = xmlGetProp(node,prop_name);
+    if (attr != nullptr){
+        prop = (char*)(attr);
+        xmlFree(attr);
     }
-    return found ? CAST_XML_CHAR_TO_CHAR(prop->children->content) : std::string() ;
+    return prop;
 }
 
 
-std::vector<xmlNodePtr> FindChildNodesAll( const xmlNodePtr & node, const std::string& name){
+std::vector<xmlNodePtr> FindChildNodesAll( const xmlNodePtr & node, const xmlCharPtr node_name){
     auto item    = node->children;
     std::vector<xmlNodePtr> v;
     while (item != nullptr) {
-        if (!memcmp(item->name, name.c_str(), name.length())) {
+        if (xmlStrEqual(item->name, node_name)  == 0){
             v.emplace_back(item);
         }
         item = item->next;

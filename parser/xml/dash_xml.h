@@ -15,23 +15,26 @@
 
 namespace dash {
 
-#define CAST_XML_CHAR_TO_CHAR(str) reinterpret_cast<char*>(str)
-#define CAST_CHAR_TO_XML_CHAR(str) reinterpret_cast<const xmlChar*>(str)
+#define CAST_XML_CHAR_TO_CHAR(str) (char *)(str)
+#define CAST_CHAR_TO_XML_CHAR(str) (xmlChar *)(str)
 
 using DocSmartPtr       = CSmartPtr<xmlDoc, xmlFreeDoc>;
-
 using NodeSmartPtr      = CSmartPtr<xmlNode, xmlFreeNode>;
+
+using xmlCharPtr = xmlChar*;
 
 using AttrTableSmartPtr = CSmartPtr<xmlAttributeTable, xmlFreeAttributeTable>;
 
 DocSmartPtr initXmlDoc(const char* src, int length);
 
-std::string getNodeProp(const xmlNodePtr& node, const std::string& prop_name);
+std::string getNodeProp(const xmlNodePtr& node, const xmlCharPtr prop_name);
 
-xmlNodePtr FindChildNode( const xmlNodePtr & node, const std::string& name);
+xmlNodePtr FindChildNode( const xmlNodePtr & node, const xmlCharPtr  node_name);
 
-std::vector<xmlNodePtr> FindChildNodesAll( const xmlNodePtr & node, const std::string& name);
-xmlNodePtr FindChildNodeInDoc( const DocSmartPtr & node, const std::string& name);
+std::vector<xmlNodePtr> FindChildNodesAll( const xmlNodePtr & node, const xmlCharPtr node_name);
+
+
+xmlNodePtr FindChildNodeInDoc( const DocSmartPtr & node, const xmlCharPtr node_name);
 
 
 
