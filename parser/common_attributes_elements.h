@@ -32,10 +32,9 @@ typedef struct URLType {
     std::string source_url_;  // if it doesn't present, it will inherit from BaseRUL
 } URLType;
 
-typedef struct BaseURL {
+typedef struct BaseURL : public URLType{
     std::optional<std::string> service_location_;  // may be useful for CDN
-    URLType url_info_;
-    bool range_locates_query = false;
+    bool range_locates_query_ = false;
 } BaseURL;
 
 typedef struct Initialization {

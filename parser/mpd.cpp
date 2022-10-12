@@ -6,6 +6,7 @@
 #include "identifier.h"
 #include "utils/dash_time.h"
 #include <absl/strings/match.h>
+#include "common_parser.h"
 
 namespace dash {
 
@@ -38,7 +39,27 @@ StatusCode Mpd::ParseMpdTag(const xmlNodePtr mpd) {
     // parse BaseURL if exist
     auto base_url = FindChildNodesAll(mpd,"BaseURL");
     if (!base_url.empty()){
-        std::for_each(base_url.begin(),base_url.end(),[](xmlNodePtr url){});
+        std::for_each(base_url.begin(),base_url.end(),[this](xmlNodePtr url){
+            auto base_url = parseBaseUrl(url);
+            base_url.source_url_ = CAST_XML_CHAR_TO_CHAR(url->content);
+            base_urls_.emplace_back(std::move(base_url));
+        });
+    }
+
+    // parse Location
+    auto locations = FindChildNodesAll(mpd,"Location");
+    if (!locations.empty()){
+        std::for_each(locations.begin(),locations.end(),[this](xmlNodePtr url){
+            locations_.emplace_back(CAST_XML_CHAR_TO_CHAR(url->content));
+        });
+    }
+    // parse UTCTing
+
+    auto utc_timing = FindChildNodesAll(mpd,"UTCTiming");
+    if (!utc_timing.empty()){
+        std::for_each(utc_timing.begin(),utc_timing.end(),[this](xmlNodePtr url){
+            utc_timing_.emplace_back(CAST_XML_CHAR_TO_CHAR(url->content));
+        });
     }
 
     return StatusCode::kOk;

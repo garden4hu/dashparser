@@ -5,5 +5,5 @@
 
 
 namespace dash {
-    BaseURL parseBaseUrl(const xmlNodePtr* node);
+    BaseURL parseBaseUrl(xmlNodePtr node);
 }

@@ -8,7 +8,7 @@ namespace dash {
 static NumericalInterval parseByteRangeString(const std::string& range){
     
 }
-BaseURL parseBaseUrl(const xmlNodePtr node) {
+BaseURL parseBaseUrl(xmlNodePtr node) {
     BaseURL base_url{};
     auto service_location = getNodeProp(node,"serviceLocation");
     if (!service_location.empty()){
@@ -20,15 +20,14 @@ BaseURL parseBaseUrl(const xmlNodePtr node) {
         //  1. $base$?$query$&range=$first$-$last$
         //  2. $base$/range/$first$-$last$
         // we just to check where should the range locates, PATH OR QUERY
-        // Note: it doesn't check whether the template contains unrecognized identifiers
+        // Note: it doesn't check whether the template contains unrecognized identifiers.
         if (range.find("/range/")){
-            base_url.range_locates_query = false;
+            base_url.range_locates_query_ = false;
         }
         if (range.find("?$query$")){
-            base_url.range_locates_query = true;
+            base_url.range_locates_query_ = true;
         }
     }
-
     return base_url;
 }
 }

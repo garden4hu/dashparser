@@ -21,6 +21,8 @@ list(APPEND DASH_CXX_HEADERS
 		parser/utils/dash_time.h
 		parser/base/helper.h
 		parser/common_parser.h
+		parser/utils/url.h
+		parser/base/strings.h
 )
 
 
@@ -38,29 +40,32 @@ list(APPEND DASH_CXX_FILES
 		parser/dash.cpp
 		parser/utils/prtime.cpp
 		parser/utils/dash_time.cpp
+		parser/utils/url_parser.cpp
+		parser/common_parser.cpp
 
 )
 
-
-add_library(${PROJECT_NAME} SHARED ${DASH_CXX_HEADERS} ${DASH_CXX_FILES} parser/utils/url_parser.cpp parser/utils/url_parser.h parser/utils/url.cpp parser/utils/url.h)
-
-# for MSVC
-if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-	## set_property(TARGET mpd_parser PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+if(MSVC)
+#  target_compile_options(${PROJECT_NAME} PUBLIC "/ZI")
+#  target_link_options(${PROJECT_NAME} PUBLIC "/INCREMENTAL")
 endif()
+
+
+add_library(${PROJECT_NAME} SHARED ${DASH_CXX_HEADERS} ${DASH_CXX_FILES} )
+
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_include_directories(${PROJECT_NAME} PRIVATE parser)
-target_link_libraries(${PROJECT_NAME}  PRIVATE LibXml2::LibXml2 fmt::fmt-header-only absl::base absl::strings)
+target_link_libraries(${PROJECT_NAME}  PRIVATE LibXml2::LibXml2 absl::base absl::strings)
 # for MSVC
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-	set_property(TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+	# set_property(TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 
-#if(ON)
+#if(OFF)
 	find_package(GTest CONFIG REQUIRED)
 	enable_testing()
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
 
 #	add_executable(
 #			mpd_parser
@@ -74,4 +79,3 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
 		## set_property(TARGET mpd_parser PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 	endif()
 #endif()
-

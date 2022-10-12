@@ -24,7 +24,7 @@ namespace dash {
 
 #define CheckBit(x, y) ((x >> y) & 1)
 
-std::optional<int64_t> ParseDurationString(const std::string& duration) {
+std::optional<int> ParseDurationString(const std::string& duration) {
     std::string_view delta(duration);
     int i = -1;
     do {
@@ -60,7 +60,7 @@ std::optional<int64_t> ParseDurationString(const std::string& duration) {
         int d           = 0;
         int h           = 0;
         int min         = 0;
-        int64_t ms      = 0;
+        int ms      = 0;
 
         // process the first half: xxYxxMxxD
         if (!date_duration.empty()){
@@ -127,9 +127,9 @@ std::optional<int64_t> ParseDurationString(const std::string& duration) {
                 }
             }
         }
-        const int64_t ms_per_minute = 60 * 1000;
-        const int64_t ms_per_hour   = 60 * ms_per_minute;
-        const int64_t ms_per_day    = 24 * ms_per_hour;
+        const int ms_per_minute = 60 * 1000;
+        const int ms_per_hour   = 60 * ms_per_minute;
+        const int ms_per_day    = 24 * ms_per_hour;
         return d * ms_per_day + h * ms_per_hour + min * ms_per_minute + ms;
     } while (false);
     return std::nullopt;

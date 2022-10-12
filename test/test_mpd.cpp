@@ -84,12 +84,29 @@ TEST(dash_parser, test_xml_doc){
 }
 
 TEST(dash_parser, test_parse_url){
-//    dash::URL url("https://www.google.com/path?a=2");
-//    if (url.ParsedOK() == false){
-//        cout << "parsed OK \n";
-//    }else {
-//        cout << "parsed FAIL \n";
-//    }
-    cout << "OK" << endl;
+    const dash::URL url("https://google.com:4443/?time=123");
+    GTEST_ASSERT_TRUE(url.IsParsedOK());
+    if (url.IsParsedOK()) {
+        cout << url.Host()<< endl;
+        cout << url.Schema() << endl;
+        cout << url.Path() << endl;
+        cout << url.Query() << endl;
+    }
 }
+TEST(dash_parser, test_append_path){
+    dash::URL url("https://google.com:4443?time=123");
+
+    cout << url.AppendPath("dd") << endl;
+    cout << url.AppendPath("/") << endl;
+    cout << url.AppendPath("") << endl;
+    cout << url.AppendPath("dd/") << endl;
+
+    dash::URL url2("/abc/");
+    cout << url2.AppendPath("123") << endl;
+    cout << url2.AppendPath("/") << endl;
+    cout << url2.AppendPath("") << endl;
+    cout << url2.AppendPath("123/") << endl;
+    cout << url2.AppendPath("////123/") << endl;
+}
+
 }  // namespace

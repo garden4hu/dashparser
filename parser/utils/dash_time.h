@@ -25,7 +25,7 @@ std::optional<int64_t> ParseTimeString(const std::string& s);
  * That is mean, the maximum scale is day.
  * @return int64_t, if parsed successfully, it will return the duration in microsecond.
  * */
-std::optional<int64_t> ParseDurationString(const std::string& duration);
+std::optional<int> ParseDurationString(const std::string& duration);
 
 /**
  * @brief DateAdvance will add the @param duration to the @param date in order to

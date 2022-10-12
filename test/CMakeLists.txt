@@ -6,6 +6,7 @@ LIST(APPEND LIB_DASH_PARSER_HEADER
         ../parser/common_parser.h
         ../parser/utils/url_parser.h
         ../parser/utils/url.h
+        ../parser/base/strings.h
         )
 
 
@@ -32,11 +33,11 @@ add_executable(
         mpd_parser
         ${LIB_DASH_PARSER_HEADER}
         ${LIB_DASH_PARSER_CXX_FILES}
-        test_mpd.cpp     )
+        test_mpd.cpp )
 
 target_link_libraries(mpd_parser PRIVATE GTest::gtest GTest::gtest_main LibXml2::LibXml2 fmt::fmt-header-only absl::base absl::strings)
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    set_property(TARGET mpd_parser PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+  #  set_property(TARGET mpd_parser PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 #add_test(
 #        NAME
