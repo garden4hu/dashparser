@@ -9,7 +9,7 @@ xmlChar* kElemMetrics                    = (xmlChar*)"EssentialMetrics";
 xmlChar* kElemEssentialProperty          = (xmlChar*)"EssentialProperty";
 xmlChar* kElemSupplementalProperty       = (xmlChar*)"SupplementalProperty";
 xmlChar* kElemUTCTiming                  = (xmlChar*)"UTCTiming";
-xmlChar* kElemAdaptationSet                  = (xmlChar*)"AdaptationSet";
+xmlChar* kElemAdaptationSet              = (xmlChar*)"AdaptationSet";
 
 // common attributes
 xmlChar* kPropServiceLocation            = (xmlChar*)"serviceLocation";
@@ -19,6 +19,17 @@ xmlChar* kPropType                       = (xmlChar*)"type";
 xmlChar* kPropSchemeIdUri                = (xmlChar*)"schemeIdUri";
 xmlChar* kPropStart                      = (xmlChar*)"start";
 xmlChar* kPropDuration                   = (xmlChar*)"duration";
+xmlChar* kPropWidth                      = (xmlChar*)"width";
+xmlChar* kPropHeight                     = (xmlChar*)"height";
+xmlChar* kPropSar                        = (xmlChar*)"sar";
+xmlChar* kPropFrameRate                  = (xmlChar*)"frameRate";
+xmlChar* kPropAudioSamplingRate          = (xmlChar*)"audioSamplingRate";
+xmlChar* kPropMimeType                   = (xmlChar*)"mimeType";
+xmlChar* kPropCodecs                   = (xmlChar*)"codecs";
+xmlChar* kPropMaximumSAPPeriod                  = (xmlChar*)"maximumSAPPeriod";
+xmlChar* kPropMaximumStartWithSAP                 = (xmlChar*)"startWithSAP";
+xmlChar* kPropMaxPlayoutRate                 = (xmlChar*)"maxPlayoutRate";
+xmlChar* kPropCodingDependency                = (xmlChar*)"codingDependency";
 
 // BaseURL Attribute
 xmlChar* kPropByteRange                  = (xmlChar*)"byteRange";

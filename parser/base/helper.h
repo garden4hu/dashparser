@@ -19,3 +19,46 @@ void SetIfHasValue(T& dest, std::optional<U> opt) {
         return;
     }
 }
+
+
+/** @brief trait for setting integer when the the content string @param str
+ * can be converted into the optional struct of integer.
+* It's an ugly implementation.
+ * @note Unknown types will cause unforeseen errors
+ * */
+template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+void SetIntegerFromString(std::optional<T>& dest, const std::string& str) {
+    if (str.empty()) {
+        return;
+    }
+    if (std::is_same_v<T, int>) {
+        dest = static_cast<int>(std::stoi(str));
+    } else if (std::is_same_v<T, uint32_t>) {
+        dest = static_cast<uint32_t>(std::stoul(str));
+    } else if (std::is_same_v<T, int64_t>) {
+        dest = static_cast<int>(std::stoll(str));
+    } else {
+        // doing nothing
+    }
+}
+
+/** @brief trait for setting integer when the the content string @param str
+ * can be converted into integer.
+ * It's an ugly implementation.
+ * @note Unknown types will cause unforeseen errors
+ * */
+template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+void SetIntegerFromString(T& dest, const std::string& str) {
+    if (str.empty()) {
+        return;
+    }
+    if (std::is_same_v<T, int>) {
+        dest = static_cast<int>(std::stoi(str));
+    } else if (std::is_same_v<T, uint32_t>) {
+        dest = static_cast<uint32_t>(std::stoul(str));
+    } else if (std::is_same_v<T, int64_t>) {
+        dest = static_cast<int>(std::stoll(str));
+    } else {
+        // doing nothing
+    }
+}

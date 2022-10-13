@@ -20,7 +20,7 @@ StatusCode Mpd::Parse(const char* xml, int len) {
         return StatusCode::kErrorInvalidMPD;
     }
 
-    doc = std::move(docXml);  // find mpd node
+    doc      = std::move(docXml);  // find mpd node
     auto mpd = FindChildNodeInDoc(doc, kElemMpd);
     if (!mpd) {
         return StatusCode::kErrorInvalidMPD;
@@ -53,7 +53,6 @@ StatusCode Mpd::ParseMpdTag(void* node) {
         });
     }
     // parse UTCTing
-
     auto utc_timing = FindChildNodesAll(mpd, kElemUTCTiming);
     if (!utc_timing.empty()) {
         std::for_each(utc_timing.begin(), utc_timing.end(), [this](xmlNodePtr node) {
@@ -67,69 +66,64 @@ StatusCode Mpd::ParseMpdTag(void* node) {
     return StatusCode::kOk;
 }
 StatusCode Mpd::parseMpdLevelAttr(const xmlNodePtr mpd) {
-    do {
-        auto mpd_type = getNodeProp(mpd, kPropType);
-        auto profile  = getNodeProp(mpd, kPropProfiles);
-        if (profile.empty()) {
-            return StatusCode::kErrorInvalidMPD;
+    auto mpd_type = getNodeProp(mpd, kPropType);
+    auto profile  = getNodeProp(mpd, kPropProfiles);
+    if (profile.empty()) {
+        return StatusCode::kErrorInvalidMPD;
+    }
+    if (absl::StrContains(profile, kSchemaIdProfileISOFFVOD) ||
+        absl::StrContains(profile, kSchemaIdProfileISOFFExtVOD)) {
+        if (mpd_type == "static" || mpd_type.empty()) {
+            type_ = TYPE::DASH_MPD_TYPE_STATIC;
         }
-        if (absl::StrContains(profile, kSchemaIdProfileISOFFVOD) ||
-            absl::StrContains(profile, kSchemaIdProfileISOFFExtVOD)) {
-            if (mpd_type == "static" || mpd_type.empty()) {
-                type_ = TYPE::DASH_MPD_TYPE_STATIC;
-            }
-            profile_ = absl::StrContains(profile, kSchemaIdProfileISOFFVOD)
-                           ? ProfileType::ISO_FF_ON_DEMAND
-                           : ProfileType::ISO_FF_EXT_ON_DEMAND;
-        } else if (absl::StrContains(profile, kSchemaIdProfileISOFFLIVE) ||
-                   absl::StrContains(profile, kSchemaIdProfileISOFFExtLIVE)) {
-            if (mpd_type == "dynamic" || mpd_type.empty()) {
-                type_ = TYPE::DASH_MPD_TYPE_DYNAMIC;
-            }
-            profile_ = absl::StrContains(profile, kSchemaIdProfileISOFFLIVE)
-                           ? ProfileType::ISO_FF_LIVE
-                           : ProfileType::ISO_FF_EXT_LIVE;
-        } else if (absl::StrContains(profile, kSchemaIdProfileISOFFMain) ||
-                   absl::StrContains(profile, kSchemaIdProfileISOFFCommon)) {
-            type_ =
-                mpd_type == "dynamic" ? TYPE::DASH_MPD_TYPE_DYNAMIC : TYPE::DASH_MPD_TYPE_STATIC;
-            profile_ = absl::StrContains(profile, kSchemaIdProfileISOFFMain)
-                           ? ProfileType::ISO_FF_MAIN
-                           : ProfileType::ISO_FF_COMMON;
-        } else if (absl::StrContains(profile, kSchemaIdProfileMP2TMain) ||
-                   absl::StrContains(profile, kSchemaIdProfileMP2TSimple)) {
-            type_ =
-                mpd_type == "dynamic" ? TYPE::DASH_MPD_TYPE_DYNAMIC : TYPE::DASH_MPD_TYPE_STATIC;
-            profile_ = absl::StrContains(profile, kSchemaIdProfileMP2TMain)
-                           ? ProfileType::MPEG2T_MAIN
-                           : ProfileType::MPEG2T_SIMPLE;
-        } else {
-            return StatusCode::KErrorInvalidMPDProfile;
+        profile_ = absl::StrContains(profile, kSchemaIdProfileISOFFVOD)
+                       ? ProfileType::ISO_FF_ON_DEMAND
+                       : ProfileType::ISO_FF_EXT_ON_DEMAND;
+    } else if (absl::StrContains(profile, kSchemaIdProfileISOFFLIVE) ||
+               absl::StrContains(profile, kSchemaIdProfileISOFFExtLIVE)) {
+        if (mpd_type == "dynamic" || mpd_type.empty()) {
+            type_ = TYPE::DASH_MPD_TYPE_DYNAMIC;
         }
+        profile_ = absl::StrContains(profile, kSchemaIdProfileISOFFLIVE)
+                       ? ProfileType::ISO_FF_LIVE
+                       : ProfileType::ISO_FF_EXT_LIVE;
+    } else if (absl::StrContains(profile, kSchemaIdProfileISOFFMain) ||
+               absl::StrContains(profile, kSchemaIdProfileISOFFCommon)) {
+        type_    = mpd_type == "dynamic" ? TYPE::DASH_MPD_TYPE_DYNAMIC : TYPE::DASH_MPD_TYPE_STATIC;
+        profile_ = absl::StrContains(profile, kSchemaIdProfileISOFFMain)
+                       ? ProfileType::ISO_FF_MAIN
+                       : ProfileType::ISO_FF_COMMON;
+    } else if (absl::StrContains(profile, kSchemaIdProfileMP2TMain) ||
+               absl::StrContains(profile, kSchemaIdProfileMP2TSimple)) {
+        type_    = mpd_type == "dynamic" ? TYPE::DASH_MPD_TYPE_DYNAMIC : TYPE::DASH_MPD_TYPE_STATIC;
+        profile_ = absl::StrContains(profile, kSchemaIdProfileMP2TMain)
+                       ? ProfileType::MPEG2T_MAIN
+                       : ProfileType::MPEG2T_SIMPLE;
+    } else {
+        return StatusCode::KErrorInvalidMPDProfile;
+    }
 
-        id_ = getNodeProp(mpd, kPropID).empty() ? getNodeProp(mpd, kPropID) : base_url_;
-        SetIfHasValue<int, int64_t>(min_buffer_time_,
-                                    ParseDurationString(getNodeProp(mpd, kPropMinBufferTime)));
+    id_ = getNodeProp(mpd, kPropID).empty() ? getNodeProp(mpd, kPropID) : base_url_;
+    SetIfHasValue<int, int64_t>(min_buffer_time_,
+                                ParseDurationString(getNodeProp(mpd, kPropMinBufferTime)));
 
-        availability_start_time_ = ParseTimeString(getNodeProp(mpd, kPropAvailabilityStartTime));
-        availability_end_time_   = ParseTimeString(getNodeProp(mpd, kPropAvailabilityEndTime));
-        media_presentation_duration_ =
-            ParseTimeString(getNodeProp(mpd, kPropMediaPresentationDuration));
+    availability_start_time_ = ParseTimeString(getNodeProp(mpd, kPropAvailabilityStartTime));
+    availability_end_time_   = ParseTimeString(getNodeProp(mpd, kPropAvailabilityEndTime));
+    media_presentation_duration_ =
+        ParseTimeString(getNodeProp(mpd, kPropMediaPresentationDuration));
 
-        max_segment_duration_ = ParseDurationString(getNodeProp(mpd, kPropMaxSegmentDuration));
-        // check live props
-        if (type_ == TYPE::DASH_MPD_TYPE_DYNAMIC) {
-            SetIfHasValue<int64_t, int64_t>(publish_time_,
-                                            ParseTimeString(getNodeProp(mpd, kPropPublishTime)));
-            SetIfHasValue<int64_t, int64_t>(
-                time_shift_buffer_depth_,
-                ParseDurationString(getNodeProp(mpd, kPropTimeShiftBufferDepth)));
-            minimum_update_period_ =
-                ParseDurationString(getNodeProp(mpd, kPropMinimumUpdatePeriod));
-            suggested_presentation_delay_ =
-                ParseDurationString(getNodeProp(mpd, kPropSuggestedPresentationDelay));
-        }
-    } while (false);
+    max_segment_duration_ = ParseDurationString(getNodeProp(mpd, kPropMaxSegmentDuration));
+    // check live props
+    if (type_ == TYPE::DASH_MPD_TYPE_DYNAMIC) {
+        SetIfHasValue<int64_t, int64_t>(publish_time_,
+                                        ParseTimeString(getNodeProp(mpd, kPropPublishTime)));
+        SetIfHasValue<int64_t, int64_t>(
+            time_shift_buffer_depth_,
+            ParseDurationString(getNodeProp(mpd, kPropTimeShiftBufferDepth)));
+        minimum_update_period_ = ParseDurationString(getNodeProp(mpd, kPropMinimumUpdatePeriod));
+        suggested_presentation_delay_ =
+            ParseDurationString(getNodeProp(mpd, kPropSuggestedPresentationDelay));
+    }
     return StatusCode::kOk;
 }
 StatusCode Mpd::ParsePeriod(xmlNodePtr period_node) {

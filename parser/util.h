@@ -9,7 +9,12 @@ std::string UrlJoin(const std::string& first, const std::string& second);
 
 
 
-bool IsInteger(const std::string& s);
+/**
+ * @brief it will parse the string look like "1:1" in to a tuple.
+ * @return an optional value. If has value, the first is numerator,
+ * and the second is denominator.
+ * */
+std::optional<std::tuple<int,int>> ParseRatioString(const std::string& ratio);
 
 
 

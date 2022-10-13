@@ -3,7 +3,7 @@
 #include <string>
 #include <string_view>
 
-
+namespace dash {
 /**
  * @brief trim all the given leading character @param ch of the @param view in place
  * */
@@ -31,7 +31,6 @@ inline void TrimPrefixAll(std::string* str, unsigned char ch) {
     str->erase(str->begin(), pos);
 }
 
-
 /**
  * @brief trim all the given trailing character @param ch of the @param str in place
  * */
@@ -40,3 +39,9 @@ inline void TrimSuffixAll(std::string* str, unsigned char ch) {
                                [ch](const unsigned char c) { return c == ch; });
     str->erase(static_cast<size_t>(str->rend() - it));
 }
+
+/**
+ * @brief to check if the string @param s is an integer.
+ * */
+bool IsInteger(const std::string& s);
+}  // namespace dash

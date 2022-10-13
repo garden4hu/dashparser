@@ -23,8 +23,8 @@ typedef struct {
 } Fraction;
 
 typedef struct NumericalInterval {
-    int flooring   = -1;
-    int ceiling = -1;
+    int flooring   = 0;
+    int ceiling = 0;
 } NumericalInterval;
 
  typedef Fraction FrameRate;
@@ -115,19 +115,27 @@ class CommonAttributesElements {
     std::string mime_type_;  // "application/mp4", "video/mp4", "audio/mp4"
 
     // Optional parameters
-    optional<std::string> profile_;
+    // If empty in current level, should be inherited from higher level
+    std::string profile_;
     optional<int> width_;
     optional<int> height_;
     optional<Fraction> sar_;
     optional<FrameRate> frame_rate_;
     optional<NumericalInterval> audio_sampling_rate_;
-    optional<std::string> codecs_;
+    std::string codecs_; // IETF RFC 6381:2011
     optional<int> maximum_sap_period_;
     optional<int> start_with_sap_;
     int max_play_out_rate_ = 1;
+
+    // If it has value and the value is true,
+    // means that at least one access unit that depends on one or more other access units for decoding
     optional<bool> coding_dependency_;
-    int scan_type_          = 0;  // 0: progressive, 1: interlaced, 2: unknown
+    // 0: progressive, 1: interlaced, 2: unknown
+    // DASH-IF and CMAF need it to be 0
+    int scan_type_          = 0;
     int selection_priority_ = 1;
+    // std::string segment_profiles_;
+
     // FramePacking
     std::vector<AudioChannelConfiguration> audio_channel_configurations_;
     std::vector<ContentProtection> content_protections_;

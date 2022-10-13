@@ -42,6 +42,7 @@ list(APPEND DASH_CXX_FILES
 		parser/utils/dash_time.cpp
 		parser/utils/url_parser.cpp
 		parser/common_parser.cpp
+		parser/base/strings.cpp
 
 )
 

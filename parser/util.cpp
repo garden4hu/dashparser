@@ -1,13 +1,11 @@
 #include "util.h"
 
+#include <absl/strings/str_split.h>
+#include <absl/strings/string_view.h>
 #include <absl/strings/strip.h>
 
 #include <iostream>
-
-#include <absl/strings/string_view.h>
-#include <absl/strings/strip.h>
-#include <absl/strings/str_split.h>
-
+#include <strng>
 
 namespace dash {
 
@@ -36,26 +34,21 @@ std::string UrlJoin(const std::string& first, const std::string& second) {
     return url;
 }
 
-
-bool IsInteger(const std::string& s) {
-    bool b = true;
-    absl::string_view v{s};
-    if (EndsWithIgnoreCase(v, "UL")){
-        v.remove_suffix(2);
-    }else if (EndsWithIgnoreCase(v,"L") || EndsWithIgnoreCase(v,"U")){
-        v.remove_suffix(1);
-    }else {
+std::optional<std::tuple<int,int>> ParseRatioString(const std::string& ratio){
+    if (ratio.empty()){
+        return std::nullopt;
     }
-    absl::StripAsciiWhitespace(v);
-    if (absl::StartsWith(v,"+") || absl::StartsWith(v,"-")){
-        v.remove_prefix(1);
+    auto pos = ratio.find(':');
+    if (pos == std::string::npos){
+        return std::nullopt;
     }
-    std::for_each(v.begin(), v.end(), [&b](unsigned char c) {
-        if (!std::isdigit(c)) {
-            b = false;
-        }
-    });
-    return b;
+    auto num_str = ratio.substr(0,pos);
+    auto denomi_str  = ratio.substr(pos);
+    if (!num_str.empty() && !denomi_str.empty()){
+        int numerator = std::stoi(num_str);
+        int denominator = std::stoi(denomi_str);
+            return std::make_tuple(numerator,denominator);
+    }
+    return  std::nullopt;
 }
-
 }  // namespace dash
